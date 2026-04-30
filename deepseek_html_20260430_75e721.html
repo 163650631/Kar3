@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>机密资料库</title>
+    <style>
+        :root {
+            --bg: #fdfdfd;
+            --border: #111;
+            --text: #1a1a2e;
+            --accent: #4a6a8a;
+            --dim: #8a8a8a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0d0d0d;
+            font-family: 'Courier New', 'SimSun', 'NSimSun', monospace;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 8px;
+            background-image: 
+                repeating-linear-gradient(0deg, rgba(0,0,0,0.03) 0px, rgba(0,0,0,0.03) 1px, transparent 1px, transparent 3px),
+                repeating-linear-gradient(90deg, rgba(0,0,0,0.02) 0px, rgba(0,0,0,0.02) 1px, transparent 1px, transparent 2px);
+            position: relative;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+            opacity: 0.6;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 800px;
+            min-height: 96vh;
+            background: #f8f8f6;
+            border: 5px solid #111;
+            outline: 3px solid #111;
+            outline-offset: 2px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 
+                inset 0 0 60px rgba(0,0,0,0.04),
+                0 0 0 8px #0d0d0d;
+        }
+
+        .scanlines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0,0,0,0.015) 2px,
+                rgba(0,0,0,0.015) 4px
+            );
+        }
+
+        .pixel-bar {
+            width: 100%;
+            height: 6px;
+            background: repeating-linear-gradient(90deg, #111 0px, #111 6px, #f8f8f6 6px, #f8f8f6 10px);
+            opacity: 0.5;
+        }
+
+        .header {
+            text-align: center;
+            padding: 18px 12px 10px;
+            border-bottom: 2px dashed #999;
+            margin: 0 12px;
+            position: relative;
+        }
+
+        .header-garbled-top {
+            font-size: 9px;
+            color: #b0b0b0;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .header-title {
+            font-size: clamp(18px, 5vw, 24px);
+            letter-spacing: 3px;
+            color: #111;
+            font-weight: bold;
+            margin-bottom: 4px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .header-subtitle {
+            font-size: 10px;
+            color: #666;
+            letter-spacing: 2px;
+            animation: flicker 4s infinite;
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            41% { opacity: 1; }
+            42% { opacity: 0.7; }
+            43% { opacity: 1; }
+            59% { opacity: 1; }
+            60% { opacity: 0.5; }
+            61% { opacity: 1; }
+        }
+
+        .nav-bar {
+            display: flex;
+            margin: 8px 12px;
+            border: 2px solid #111;
+            flex-wrap: wrap;
+            gap: 0;
+        }
+
+        .nav-btn {
+            flex: 1;
+            min-width: 0;
+            padding: 10px 4px;
+            background: #eee;
+            border: none;
+            border-right: 1px solid #999;
+            font-family: 'Courier New', monospace;
+            font-size: clamp(11px, 2.5vw, 14px);
+            letter-spacing: 1px;
+            cursor: pointer;
+            color: #111;
+            font-weight: bold;
+            text-align: center;
+            word-break: keep-all;
+        }
+
+        .nav-btn:last-child {
+            border-right: none;
+        }
+
+        .nav-btn:hover {
+            background: #111;
+            color: #ddd;
+        }
+
+        .nav-btn.active {
+            background: #111;
+            color: #c8d8e8;
+        }
+
+        .content-area {
+            padding: 6px 10px 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .post-card {
+            border: 2px solid #111;
+            margin-bottom: 6px;
+            padding: 10px 10px;
+            cursor: pointer;
+            background: #fafaf8;
+            transition: background 0.1s;
+            position: relative;
+        }
+
+        .post-card:hover {
+            background: #eaeaec;
+        }
+
+        .post-card-header {
+            border-bottom: 2px solid #111;
+            padding-bottom: 6px;
+            margin-bottom: 6px;
+        }
+
+        .post-card-title {
+            font-size: clamp(15px, 3.5vw, 18px);
+            font-weight: bold;
+            color: #111;
+            letter-spacing: 1px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .post-card-meta {
+            font-size: 10px;
+            color: #666;
+            margin-top: 3px;
+            letter-spacing: 1px;
+        }
+
+        .post-card-meta .poster {
+            color: #4a6a8a;
+        }
+
+        .post-card-meta .timestamp-box {
+            display: inline-block;
+            border: 2px solid #111;
+            padding: 2px 6px;
+            background: #f0f0f0;
+            color: #333;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 1px;
+        }
+
+        .post-card-desc {
+            background: #f0f0f0;
+            border: 1px solid #999;
+            padding: 6px 8px;
+            font-size: clamp(11px, 2.5vw, 13px);
+            color: #333;
+            letter-spacing: 1px;
+            font-family: 'Courier New', monospace;
+            min-height: 2em;
+        }
+
+        .post-card.has-sublist::after {
+            content: "[+]";
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            font-size: 11px;
+            color: #666;
+            font-weight: bold;
+        }
+
+        .sub-list-container {
+            display: none;
+            margin: 0 0 6px 12px;
+            border-left: 3px solid #111;
+            padding-left: 10px;
+        }
+
+        .sub-list-container.show {
+            display: block;
+        }
+
+        .sub-list-header {
+            font-size: 10px;
+            color: #666;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .sub-list-card {
+            border: 2px solid #111;
+            margin-bottom: 3px;
+            padding: 8px;
+            cursor: pointer;
+            background: #f8f8f6;
+            font-size: clamp(12px, 3vw, 14px);
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            transition: background 0.1s;
+        }
+
+        .sub-list-card:hover {
+            background: #eaeaec;
+        }
+
+        .sub-list-back {
+            display: inline-block;
+            margin-top: 4px;
+            padding: 5px 10px;
+            border: 2px solid #111;
+            cursor: pointer;
+            background: #eee;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+
+        .sub-list-back:hover {
+            background: #111;
+            color: #ddd;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.88);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            padding: 8px;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-content {
+            width: 100%;
+            max-width: 700px;
+            max-height: 90vh;
+            background: #f8f8f6;
+            border: 5px solid #111;
+            outline: 2px solid #111;
+            outline-offset: 2px;
+            position: relative;
+            overflow-y: auto;
+            z-index: 10001;
+            box-shadow: 0 0 0 6px #0d0d0d;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 12px 12px;
+            border-bottom: 3px solid #111;
+            background: #f0f0ee;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            gap: 8px;
+        }
+
+        .modal-title {
+            font-size: clamp(16px, 4vw, 20px);
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #111;
+            flex: 1;
+            font-family: 'Courier New', monospace;
+            word-break: break-all;
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+            background: #c00;
+            color: #fff;
+            border: 3px solid #111;
+            font-size: 18px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            line-height: 1;
+            transition: background 0.1s;
+            flex-shrink: 0;
+        }
+
+        .modal-close:hover {
+            background: #f00;
+        }
+
+        .modal-info {
+            padding: 6px 12px;
+            font-size: 10px;
+            color: #555;
+            letter-spacing: 1px;
+            border-bottom: 1px dashed #999;
+            background: #fafaf8;
+            font-family: 'Courier New', monospace;
+        }
+
+        .modal-info .poster-name {
+            color: #4a6a8a;
+            font-weight: bold;
+        }
+
+        .modal-info .timestamp-box {
+            display: inline-block;
+            border: 2px solid #111;
+            padding: 2px 6px;
+            background: #f0f0f0;
+            color: #333;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 1px;
+        }
+
+        .modal-body {
+            padding: 14px 14px;
+            font-size: clamp(13px, 3vw, 15px);
+            letter-spacing: 1px;
+            line-height: 1.9;
+            color: #1a1a2e;
+            min-height: 160px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .modal-body .placeholder-block {
+            color: #3a3a5a;
+        }
+
+        .modal-footer-garbled {
+            padding: 8px 14px;
+            font-size: 9px;
+            color: #aaa;
+            letter-spacing: 1px;
+            border-top: 1px dashed #ccc;
+            font-family: 'Courier New', monospace;
+            word-break: break-all;
+        }
+
+        .footer-bar {
+            text-align: center;
+            padding: 10px;
+            font-size: 9px;
+            color: #999;
+            letter-spacing: 1px;
+            border-top: 2px dashed #ccc;
+            margin: 0 12px;
+            font-family: 'Courier New', monospace;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 2px;
+            }
+            .main-container {
+                border-width: 3px;
+                outline-width: 2px;
+                outline-offset: 1px;
+                box-shadow: 0 0 0 4px #0d0d0d;
+                min-height: 98vh;
+            }
+            .nav-btn {
+                padding: 8px 2px;
+                font-size: 11px;
+                letter-spacing: 0px;
+            }
+            .post-card {
+                padding: 8px 8px;
+            }
+            .post-card-title {
+                font-size: 14px;
+            }
+            .post-card-desc {
+                font-size: 11px;
+            }
+            .modal-content {
+                max-height: 95vh;
+                border-width: 3px;
+            }
+            .modal-header {
+                padding: 10px 8px;
+            }
+            .modal-body {
+                padding: 10px 10px;
+                font-size: 13px;
+            }
+            .modal-close {
+                width: 28px;
+                height: 28px;
+                min-width: 28px;
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 340px) {
+            .nav-btn {
+                font-size: 9px;
+                padding: 6px 1px;
+            }
+            .post-card-title {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-container" id="mainPage">
+        <div class="scanlines"></div>
+        <div class="pixel-bar"></div>
+
+        <div class="header">
+            <div class="header-garbled-top">0xDEAD ▓▓▓▓ SYS_ERR:0x00F ▓▓▓▓ 0xBEEF ▓▓▓▓▓▓▓▓▓▓▓▓▓▓</div>
+            <div class="header-title" id="headerTitle"></div>
+            <div class="header-subtitle" id="headerSubtitle"></div>
+        </div>
+
+        <div class="nav-bar" id="navBar"></div>
+
+        <div class="content-area" id="contentArea"></div>
+
+        <div class="footer-bar">
+            ▓▓▓▓▓▓▓▓▓▓▓▓ 系统时间: <span id="sysTime"></span> | 连接: <span style="animation: flicker 1.5s infinite;">■不稳定</span> | 追踪:[已加密] ▓▓▓▓▓▓▓▓▓▓▓▓
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay" onclick="closePost(event)">
+        <div class="modal-content" id="modalContent" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">帖子标题</div>
+                <button class="modal-close" onclick="closePost()" title="关闭">✕</button>
+            </div>
+            <div class="modal-info">
+                发帖人：<span class="poster-name" id="modalPoster">[匿名]</span> | 
+                时间戳：<span class="timestamp-box" id="modalTimestamp">████-██-██</span> | 
+                权限：<span style="color:#c00;">RESTRICTED</span>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+            <div class="modal-footer-garbled" id="modalGarbled">
+                ▓▓▓▓ 文档结束 ▓▓▓▓ 0xFF_END ▓▓▓▓
+            </div>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script>
+        // 初始化页面
+        document.getElementById('headerTitle').textContent = SITE_CONFIG.title;
+        document.getElementById('headerSubtitle').textContent = SITE_CONFIG.subtitle;
+
+        const navBar = document.getElementById('navBar');
+        NAV_SECTIONS.forEach((sec, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'nav-btn' + (i === 0 ? ' active' : '');
+            btn.textContent = sec.label;
+            btn.onclick = () => showSection(sec.id);
+            navBar.appendChild(btn);
+        });
+
+        const contentArea = document.getElementById('contentArea');
+        NAV_SECTIONS.forEach(sec => {
+            const sectionDiv = document.createElement('div');
+            sectionDiv.id = 'section-' + sec.id;
+            sectionDiv.className = 'section-content';
+            sectionDiv.style.display = sec.id === 'history' ? 'block' : 'none';
+
+            const sectionPosts = POSTS.filter(p => p.section === sec.id);
+            sectionPosts.forEach(post => {
+                const card = document.createElement('div');
+                card.className = 'post-card';
+                card.onclick = () => openPost(post.title, post.id, post.poster);
+                const randTS = randomTimestamp();
+                card.innerHTML = `
+                    <div class="post-card-header">
+                        <div class="post-card-title">${post.title}</div>
+                        <div class="post-card-meta">
+                            发帖人：<span class="poster">${post.poster}</span> | 
+                            时间：<span class="timestamp-box">${randTS}</span>
+                        </div>
+                    </div>
+                    <div class="post-card-desc">${post.desc}</div>
+                `;
+                sectionDiv.appendChild(card);
+            });
+
+            if (sec.id === 'residents') {
+                const resCard = document.createElement('div');
+                resCard.className = 'post-card has-sublist';
+                resCard.onclick = () => toggleSubList('sublist-residents');
+                resCard.innerHTML = `
+                    <div class="post-card-header">
+                        <div class="post-card-title">居民档案</div>
+                        <div class="post-card-meta">
+                            发帖人：<span class="poster">[档案管理员]</span> | 
+                            时间：<span class="timestamp-box">${randomTimestamp()}</span>
+                        </div>
+                    </div>
+                    <div class="post-card-desc">点击展开已收录的居民档案列表 [+]</div>
+                `;
+                sectionDiv.appendChild(resCard);
+
+                const resSub = document.createElement('div');
+                resSub.id = 'sublist-residents';
+                resSub.className = 'sub-list-container';
+                resSub.innerHTML = '<div class="sub-list-header">▸ 已收录居民档案：</div><div id="residents-sublist-items"></div>';
+                const resBack = document.createElement('div');
+                resBack.className = 'sub-list-back';
+                resBack.textContent = '◄ 收起';
+                resBack.onclick = (e) => { e.stopPropagation(); toggleSubList('sublist-residents'); };
+                resSub.appendChild(resBack);
+                sectionDiv.appendChild(resSub);
+
+                const orgCard = document.createElement('div');
+                orgCard.className = 'post-card has-sublist';
+                orgCard.onclick = () => toggleSubList('sublist-orgs');
+                orgCard.innerHTML = `
+                    <div class="post-card-header">
+                        <div class="post-card-title">已收录组织档案</div>
+                        <div class="post-card-meta">
+                            发帖人：<span class="poster">[档案管理员]</span> | 
+                            时间：<span class="timestamp-box">${randomTimestamp()}</span>
+                        </div>
+                    </div>
+                    <div class="post-card-desc">点击展开已收录的组织档案列表 [+]</div>
+                `;
+                sectionDiv.appendChild(orgCard);
+
+                const orgSub = document.createElement('div');
+                orgSub.id = 'sublist-orgs';
+                orgSub.className = 'sub-list-container';
+                orgSub.innerHTML = '<div class="sub-list-header">▸ 已收录组织档案：</div><div id="orgs-sublist-items"></div>';
+                const orgBack = document.createElement('div');
+                orgBack.className = 'sub-list-back';
+                orgBack.textContent = '◄ 收起';
+                orgBack.onclick = (e) => { e.stopPropagation(); toggleSubList('sublist-orgs'); };
+                orgSub.appendChild(orgBack);
+                sectionDiv.appendChild(orgSub);
+            }
+
+            contentArea.appendChild(sectionDiv);
+        });
+
+        const residentsSublist = document.getElementById('residents-sublist-items');
+        RESIDENTS.forEach(r => {
+            const item = document.createElement('div');
+            item.className = 'sub-list-card';
+            item.textContent = r.name;
+            item.onclick = (e) => {
+                e.stopPropagation();
+                openPost(r.name + ' 档案', r.id, '[档案管理员]');
+            };
+            residentsSublist.appendChild(item);
+        });
+
+        const orgsSublist = document.getElementById('orgs-sublist-items');
+        ORGS.forEach(o => {
+            const item = document.createElement('div');
+            item.className = 'sub-list-card';
+            item.textContent = o.name;
+            item.onclick = (e) => {
+                e.stopPropagation();
+                openPost(o.name + ' 档案', o.id, '[档案管理员]');
+            };
+            orgsSublist.appendChild(item);
+        });
+
+        function randomTimestamp() {
+            const y = 2024 + Math.floor(Math.random() * 2);
+            const m = Math.floor(Math.random() * 12) + 1;
+            const d = Math.floor(Math.random() * 28) + 1;
+            return y + '-' + String(m).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+        }
+
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('sysTime').textContent = 
+                now.getFullYear() + '-' +
+                String(now.getMonth()+1).padStart(2,'0') + '-' +
+                String(now.getDate()).padStart(2,'0') + ' ' +
+                String(now.getHours()).padStart(2,'0') + ':' +
+                String(now.getMinutes()).padStart(2,'0') + ':' +
+                String(now.getSeconds()).padStart(2,'0');
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        function showSection(name) {
+            document.querySelectorAll('.section-content').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.sub-list-container').forEach(el => el.classList.remove('show'));
+            document.getElementById('section-' + name).style.display = 'block';
+            document.querySelectorAll('.nav-btn').forEach((btn, i) => {
+                btn.classList.remove('active');
+                if (NAV_SECTIONS[i].id === name) btn.classList.add('active');
+            });
+        }
+
+        function toggleSubList(id) {
+            const el = document.getElementById(id);
+            document.querySelectorAll('.sub-list-container').forEach(s => {
+                if (s.id !== id) s.classList.remove('show');
+            });
+            el.classList.toggle('show');
+        }
+
+        function openPost(title, postId, poster) {
+            document.querySelectorAll('.sub-list-container').forEach(el => el.classList.remove('show'));
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalPoster').textContent = poster || '[匿名]';
+            document.getElementById('modalTimestamp').textContent = randomTimestamp();
+
+            let content = POSTS_CONTENT_BY_ID[postId] || '';
+            if (!content) {
+                const post = POSTS.find(p => p.id === postId);
+                content = post ? post.content : '<p>■■■■■■■■■■</p>';
+            }
+            document.getElementById('modalBody').innerHTML = content;
+            document.getElementById('modalGarbled').innerHTML = 
+                '▓▓▓▓ 文档结束 ▓▓▓▓ 0x' + Math.random().toString(16).substring(2,6).toUpperCase() + '_END ▓▓▓▓';
+            document.getElementById('modalOverlay').classList.add('show');
+            document.body.style.overflow = 'hidden';
+            document.getElementById('modalContent').scrollTop = 0;
+        }
+
+        function closePost(event) {
+            if (event && event.target !== document.getElementById('modalOverlay')) return;
+            document.getElementById('modalOverlay').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closePost(); });
+    </script>
+
+</body>
+</html>
