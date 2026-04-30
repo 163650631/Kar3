@@ -51,6 +51,44 @@ const POSTS = [
         `
     },
     {
+    id: "history3",
+    section: "history",
+    title: "博爱之城",
+    poster: "[匿名]",
+    desc: "前往何处、如何前往以及为何前往。",
+    content: `
+        <p style="color:#555;font-size:11px;margin-bottom:12px;">[文档: 0xC2A003] [密级:████]</p>
+
+        <p style="font-weight:bold;font-size:15px;margin-bottom:8px;color:#111;">前往何处：博爱之城</p>
+        <p style="margin-bottom:12px;">对薄雾街而言，博爱之城的象征意义已经超越了它能代指的城市。它在地理位置上位于悲慈地中部地区，延绵而致命的白雾垄断了它的边界，因此不具备任何被擅自探访的可能性。更进一步，有关它最详细的介绍为曾流转于薄雾街内网的、一件仅7MB大小的文档，而其出处与具体内容已不可考。据描述，文档曾客观、中性地概述博爱之城种种，几乎符合所有人对文明时代的文明社会的文明假设……需要提示的是，市面上所有信息，都受到博爱之城信息监管部门真理部的管控，即使是这份泄露文件。人们所追求的真理，都不过真理部允许下的瑕疵。</p>
+        <p style="margin-bottom:12px;">在关于博爱之城所有模棱两可的流言中，有一点可以确信，博爱之城内部已经彻底地排除了白雾造成的危害。除此之外，无论薄雾街人怎样一厢情愿地制造阴谋论，又如何一意孤行地想要前往，它终究只是座建筑群的笼统代称，能承载的起所有指责，所有幻想。</p>
+
+        <p style="font-weight:bold;font-size:15px;margin-bottom:8px;color:#111;">如何前往：空白通行证</p>
+        <p style="margin-bottom:12px;">但，博爱之城终究并非杜撰出的地域，而只要是地点就总有能够抵达的方法：近年来，博爱之城以宽广的博爱之心开放了通往它的道路，其官方向薄雾街公开一种特殊的邀请函，空白通行证。而持有空白通行证的人，只要清晰填写了相关信息，就能以此为凭证登上白雾危机中人类的诺亚方舟。</p>
+
+        <p style="font-weight:bold;font-size:15px;margin-bottom:8px;color:#111;">为何前往：野心，欲望，或者……？</p>
+        <p style="margin-bottom:12px;">这是你需要展现的：）</p>
+    `
+},
+    {
+        id: "history4",
+        section: "history",        `
+    },
+    {
+        id: "history2",
+        section: "history",
+        title: "薄雾街",
+        poster: "[匿名]",
+        desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■",
+        content: `
+            <p style="color:#555;font-size:11px;margin-bottom:12px;">[文档: 0xB1F002] [密级:████]</p>
+            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
+            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
+            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
+            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
+        `
+    },
+    {
         id: "history3",
         section: "history",
         title: "博爱之城",
