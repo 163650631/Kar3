@@ -204,23 +204,21 @@
 
         .post-card-meta {
             font-size: 10px;
-            color: #111;
+            color: #666;
             margin-top: 3px;
             letter-spacing: 1px;
         }
 
         .post-card-meta .poster {
             color: #4a6a8a;
-            background: #111;
-            color: #ddd;
-            padding: 1px 4px;
         }
 
-        .post-time-badge {
+        .post-card-meta .timestamp-box {
             display: inline-block;
-            background: #111;
-            color: #ddd;
-            padding: 1px 6px;
+            border: 2px solid #111;
+            padding: 2px 6px;
+            background: #f0f0f0;
+            color: #333;
             font-family: 'Courier New', monospace;
             letter-spacing: 1px;
         }
@@ -376,7 +374,7 @@
         .modal-info {
             padding: 6px 12px;
             font-size: 10px;
-            color: #111;
+            color: #555;
             letter-spacing: 1px;
             border-bottom: 1px dashed #999;
             background: #fafaf8;
@@ -384,16 +382,16 @@
         }
 
         .modal-info .poster-name {
-            background: #111;
-            color: #c8d8e8;
-            padding: 1px 4px;
+            color: #4a6a8a;
+            font-weight: bold;
         }
 
-        .modal-info .modal-time-badge {
+        .modal-info .timestamp-box {
             display: inline-block;
-            background: #111;
-            color: #ddd;
-            padding: 1px 6px;
+            border: 2px solid #111;
+            padding: 2px 6px;
+            background: #f0f0f0;
+            color: #333;
             font-family: 'Courier New', monospace;
             letter-spacing: 1px;
         }
@@ -512,25 +510,24 @@
     <div class="modal-overlay" id="modalOverlay" onclick="closePost(event)">
         <div class="modal-content" id="modalContent" onclick="event.stopPropagation()">
             <div class="modal-header">
-                <div class="modal-title" id="modalTitle"></div>
+                <div class="modal-title" id="modalTitle">帖子标题</div>
                 <button class="modal-close" onclick="closePost()" title="关闭">✕</button>
             </div>
             <div class="modal-info">
-                发帖人：<span class="poster-name" id="modalPoster"></span> | 
-                时间戳：<span class="modal-time-badge" id="modalTimestamp">████-██-██</span> | 
+                发帖人：<span class="poster-name" id="modalPoster">[匿名]</span> | 
+                时间戳：<span class="timestamp-box" id="modalTimestamp">████-██-██</span> | 
                 权限：<span style="color:#c00;">RESTRICTED</span>
             </div>
             <div class="modal-body" id="modalBody"></div>
-            <div class="modal-footer-garbled" id="modalGarbled"></div>
+            <div class="modal-footer-garbled" id="modalGarbled">
+                ▓▓▓▓ 文档结束 ▓▓▓▓ 0xFF_END ▓▓▓▓
+            </div>
         </div>
     </div>
 
     <script src="data.js"></script>
     <script>
-        // =====================================================================
-        //  ⚠️ 网站运行代码 - 日常修改文字请打开 data.js，不要动这里 ⚠️
-        // =====================================================================
-
+        // 初始化页面
         document.getElementById('headerTitle').textContent = SITE_CONFIG.title;
         document.getElementById('headerSubtitle').textContent = SITE_CONFIG.subtitle;
 
@@ -551,17 +548,17 @@
             sectionDiv.style.display = sec.id === 'history' ? 'block' : 'none';
 
             const sectionPosts = POSTS.filter(p => p.section === sec.id);
-
             sectionPosts.forEach(post => {
                 const card = document.createElement('div');
                 card.className = 'post-card';
                 card.onclick = () => openPost(post.title, post.id, post.poster);
+                const randTS = randomTimestamp();
                 card.innerHTML = `
                     <div class="post-card-header">
                         <div class="post-card-title">${post.title}</div>
                         <div class="post-card-meta">
                             发帖人：<span class="poster">${post.poster}</span> | 
-                            时间：<span class="post-time-badge">████-██-██</span>
+                            时间：<span class="timestamp-box">${randTS}</span>
                         </div>
                     </div>
                     <div class="post-card-desc">${post.desc}</div>
@@ -578,7 +575,7 @@
                         <div class="post-card-title">居民档案</div>
                         <div class="post-card-meta">
                             发帖人：<span class="poster">[档案管理员]</span> | 
-                            时间：<span class="post-time-badge">████-██-██</span>
+                            时间：<span class="timestamp-box">${randomTimestamp()}</span>
                         </div>
                     </div>
                     <div class="post-card-desc">点击展开已收录的居民档案列表 [+]</div>
@@ -604,7 +601,7 @@
                         <div class="post-card-title">已收录组织档案</div>
                         <div class="post-card-meta">
                             发帖人：<span class="poster">[档案管理员]</span> | 
-                            时间：<span class="post-time-badge">████-██-██</span>
+                            时间：<span class="timestamp-box">${randomTimestamp()}</span>
                         </div>
                     </div>
                     <div class="post-card-desc">点击展开已收录的组织档案列表 [+]</div>
@@ -650,6 +647,13 @@
             orgsSublist.appendChild(item);
         });
 
+        function randomTimestamp() {
+            const y = 2024 + Math.floor(Math.random() * 2);
+            const m = Math.floor(Math.random() * 12) + 1;
+            const d = Math.floor(Math.random() * 28) + 1;
+            return y + '-' + String(m).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+        }
+
         function updateTime() {
             const now = new Date();
             document.getElementById('sysTime').textContent = 
@@ -685,11 +689,7 @@
             document.querySelectorAll('.sub-list-container').forEach(el => el.classList.remove('show'));
             document.getElementById('modalTitle').textContent = title;
             document.getElementById('modalPoster').textContent = poster || '[匿名]';
-            const d = Math.floor(Math.random()*28)+1;
-            const m = Math.floor(Math.random()*12)+1;
-            const y = 2024 + Math.floor(Math.random()*2);
-            document.getElementById('modalTimestamp').textContent = 
-                y + '-' + String(m).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+            document.getElementById('modalTimestamp').textContent = randomTimestamp();
 
             let content = POSTS_CONTENT_BY_ID[postId] || '';
             if (!content) {
