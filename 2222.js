@@ -1,7 +1,6 @@
 // =====================================================================
-//  📝📝📝 文字配置区 - 所有需要修改的文字都在这里！ 📝📝📝
-//  修改后保存，上传到GitHub，1-2分钟后刷新网站即可看到效果
-//  本文件只改文字，不动格式，不用碰 index.html
+//  📝📝📝 配置区 - 所有文字都在这里修改！ 📝📝📝
+//  改完上传到GitHub，1-2分钟后刷新网站即可看到效果
 // =====================================================================
 
 // ---- 网站基础设置 ----
@@ -18,9 +17,7 @@ const NAV_SECTIONS = [
 ];
 
 // ---- 帖子数据 ----
-// 每个帖子: id, section(属于哪个分区), title, poster, desc(简短描述), content(正文)
-// content里用■■■■■占位，你可以随时替换成真实文字
-// 支持HTML：<p>段落</p>、<br>换行、<strong>加粗</strong>
+// title=标题 | poster=发帖人 | desc=卡片简短描述 | content=正文HTML
 const POSTS = [
     // ===== 分区1：历史资料 =====
     {
@@ -131,76 +128,4 @@ const POSTS = [
         desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■",
         content: `
             <p style="color:#555;font-size:11px;margin-bottom:12px;">[文档: 0x????] [密级:████████]</p>
-            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-            <p style="color:#999;font-size:10px;margin-top:14px;">▮▮▮ [数据严重损坏——恢复失败] ▮▮▮</p>
-        `
-    },
-
-    // ===== 分区3：公告 =====
-    {
-        id: "announce1",
-        section: "residents",
-        title: "公告：档案格式与撰写规则",
-        poster: "[管理员]",
-        desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■",
-        content: `
-            <p style="color:#555;font-size:11px;margin-bottom:12px;">[文档: 0xADM001] [密级:内部]</p>
-            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-        `
-    }
-];
-
-// ---- 居民档案OC列表 ----
-// 💡 添加新OC：复制一行 { id: "oc_4", name: "OC-004" }，然后在下面 POSTS_CONTENT_BY_ID 加正文
-const RESIDENTS = [
-    { id: "oc_1", name: "OC-001" },
-    { id: "oc_2", name: "OC-002" },
-    { id: "oc_3", name: "OC-003" }
-];
-
-// ---- 组织档案列表 ----
-// 💡 添加新组织：同上
-const ORGS = [
-    { id: "org_1", name: "ORG-001" },
-    { id: "org_2", name: "ORG-002" }
-];
-
-// ---- OC和组织的帖子正文（按id对应） ----
-// 💡 在这里修改每个OC/组织的正文内容
-// 支持HTML：<p>段落</p>、<br>换行、<strong>加粗</strong>
-const POSTS_CONTENT_BY_ID = {
-    "oc_1": `
-        <p style="color:#555;font-size:11px;margin-bottom:12px;">[档案编号: OC-001] [密级:████]</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-    `,
-    "oc_2": `
-        <p style="color:#555;font-size:11px;margin-bottom:12px;">[档案编号: OC-002] [密级:████]</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-    `,
-    "oc_3": `
-        <p style="color:#555;font-size:11px;margin-bottom:12px;">[档案编号: OC-003] [密级:████]</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-    `,
-    "org_1": `
-        <p style="color:#555;font-size:11px;margin-bottom:12px;">[档案编号: ORG-001] [密级:████]</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-    `,
-    "org_2": `
-        <p style="color:#555;font-size:11px;margin-bottom:12px;">[档案编号: ORG-002] [密级:████]</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-    `
-};
+            <p class="placeholder-block" style="margin-bottom:10
