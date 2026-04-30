@@ -128,4 +128,75 @@ const POSTS = [
         desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■",
         content: `
             <p style="color:#555;font-size:11px;margin-bottom:12px;">[文档: 0x????] [密级:████████]</p>
-            <p class="placeholder-block" style="margin-bottom:10
+            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
+            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
+            <p style="color:#999;font-size:10px;margin-top:14px;">▮▮▮ [数据严重损坏——恢复失败] ▮▮▮</p>
+        `
+    },
+
+    // ===== 分区3：公告 =====
+    {
+        id: "announce1",
+        section: "residents",
+        title: "公告：档案格式与撰写规则",
+        poster: "[管理员]",
+        desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■",
+        content: `
+            <p style="color:#555;font-size:11px;margin-bottom:12px;">[文档: 0xADM001] [密级:内部]</p>
+            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
+            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
+            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
+        `
+    }
+];
+
+// ---- 居民档案OC列表 ----
+// 💡 添加新OC：复制一行，改id和name，然后在下面POSTS_CONTENT_BY_ID加正文
+const RESIDENTS = [
+    { id: "oc_1", name: "OC-001" },
+    { id: "oc_2", name: "OC-002" },
+    { id: "oc_3", name: "OC-003" }
+];
+
+// ---- 组织档案列表 ----
+// 💡 添加新组织：同上
+const ORGS = [
+    { id: "org_1", name: "ORG-001" },
+    { id: "org_2", name: "ORG-002" }
+];
+
+// ---- OC和组织的帖子正文 ----
+// 💡 在这里修改每个OC/组织的正文内容
+const POSTS_CONTENT_BY_ID = {
+    "oc_1": `
+        <p style="color:#555;font-size:11px;margin-bottom:12px;">[档案编号: OC-001] [密级:████]</p>
+        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
+        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
+        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
+        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
+    `,
+    "oc_2": `
+        <p style="color:#555;font-size:11px;margin-bottom:12px;">[档案编号: OC-002] [密级:████]</p>
+        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
+        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
+        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
+    `,
+    "oc_3": `
+        <p style="color:#555;font-size:11px;margin-bottom:12px;">[档案编号: OC-003] [密级:████]</p>
+        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
+        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
+        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
+    `,
+    "org_1": `
+        <p style="color:#555;font-size:11px;margin-bottom:12px;">[档案编号: ORG-001] [密级:████]</p>
+        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
+        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
+        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
+    `,
+    "org_2": `
+        <p style="color:#555;font-size:11px;margin-bottom:12px;">[档案编号: ORG-002] [密级:████]</p>
+        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
+        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
+        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
+    `
+};
