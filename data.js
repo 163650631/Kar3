@@ -24,14 +24,14 @@ const NAV_SECTIONS = [
 const POSTS = [
     // 历史资料
     { id: "history1", section: "history", title: "遗失的历史", poster: "[匿名]", desc: "白雾吞噬土地，旧秩序消失，公司成为权力机构，人类退居小小的城市里，围墙外大雾弥漫" },
-    { id: "history2", section: "history", title: "薄雾街",     poster: "[匿名]", desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■" },
-    { id: "history3", section: "history", title: "博爱之城",   poster: "[匿名]", desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■" },
-    { id: "history4", section: "history", title: "公司部门",   poster: "[匿名]", desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■" },
+    { id: "history2", section: "history", title: "薄雾街",     poster: "[匿名]", desc: "城市被划分为里城〔博爱之城〕和外城〔薄雾街〕。我们的舞台定位在薄雾街三区，雾随时可能蔓延过来，朝不保夕" },
+    { id: "history3", section: "history", title: "博爱之城",   poster: "[匿名]", desc: "得到前往博爱之城的空白通行证" },
+    { id: "history4", section: "history", title: "公司部门",   poster: "[匿名]", desc: "悲慈地的权力机构，十公司和四部门。乏善可陈的内容，作为对世界的扩展延伸，可以不必了解" },
     // 白雾
-    { id: "fog1", section: "fog", title: "雾中的世界",   poster: "[匿名]", desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■" },
-    { id: "fog2", section: "fog", title: "对白雾的研究", poster: "[匿名]", desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■" },
-    { id: "fog3", section: "fog", title: "恐雾症",       poster: "[匿名]", desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■" },
-    { id: "fog4", section: "fog", title: "？？？",       poster: "[未知]", desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■" },
+    { id: "fog1", section: "fog", title: "雾中的世界",   poster: "[匿名]", desc: "在城市之外，雾中的世界" },
+    { id: "fog2", section: "fog", title: "对白雾的研究", poster: "[匿名]", desc: "对白雾的研究，比如如何在雾区行走" },
+    { id: "fog3", section: "fog", title: "恐雾症",       poster: "[匿名]", desc: "受到白雾或者白雾里某种特质的影响，一些人患得恐雾症，并得到了相应的能力……" },
+    { id: "fog4", section: "fog", title: "？？？",       poster: "[未知]", desc: "对绝大多数人来说，无知是件好事，而好奇心会带来毁灭，不要阅读它" },
     // 公告
     { id: "announce1", section: "residents", title: "公告：档案格式与撰写规则", poster: "[管理员]", desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■" }
 ];
