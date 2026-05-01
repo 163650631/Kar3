@@ -23,7 +23,7 @@ const NAV_SECTIONS = [
 // 帖子目录（新增帖子在这里加一行）
 const POSTS = [
     // 历史资料
-    { id: "history1", section: "history", title: "遗失的历史", poster: "[匿名]", desc: "desc: "白雾吞噬土地，旧秩序消失，公司成为权力机构，人类退居小小的城市里，围墙外大雾弥漫。" },
+    { id: "history1", section: "history", title: "遗失的历史", poster: "[匿名]", desc: "desc: "白雾吞噬土地，旧秩序消失，公司成为权力机构，人类退居小小的城市里，围墙外大雾弥漫" },
     { id: "history2", section: "history", title: "薄雾街",     poster: "[匿名]", desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■" },
     { id: "history3", section: "history", title: "博爱之城",   poster: "[匿名]", desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■" },
     { id: "history4", section: "history", title: "公司部门",   poster: "[匿名]", desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■" },
