@@ -5,626 +5,804 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>机密资料库</title>
     <style>
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{
-            background:#0d0d0d;
-            font-family:'Courier New','SimSun',monospace;
-            min-height:100vh;
-            display:flex;
-            justify-content:center;
-            align-items:flex-start;
-            padding:8px;
-            background-image:repeating-linear-gradient(0deg,rgba(0,0,0,.03) 0px,rgba(0,0,0,.03) 1px,transparent 1px,transparent 3px),repeating-linear-gradient(90deg,rgba(0,0,0,.02) 0px,rgba(0,0,0,.02) 1px,transparent 1px,transparent 2px)
+        :root {
+            --bg: #fdfdfd;
+            --border: #111;
+            --text: #1a1a2e;
+            --accent: #4a6a8a;
+            --dim: #8a8a8a;
         }
-        body::after{
-            content:"";
-            position:fixed;top:0;left:0;width:100%;height:100%;
-            pointer-events:none;z-index:9999;
-            background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-            opacity:.6
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0d0d0d;
+            font-family: 'Courier New', 'SimSun', 'NSimSun', monospace;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 8px;
+            background-image: 
+                repeating-linear-gradient(0deg, rgba(0,0,0,0.03) 0px, rgba(0,0,0,0.03) 1px, transparent 1px, transparent 3px),
+                repeating-linear-gradient(90deg, rgba(0,0,0,0.02) 0px, rgba(0,0,0,0.02) 1px, transparent 1px, transparent 2px);
+            position: relative;
         }
-        .main-container{
-            width:100%;max-width:800px;min-height:96vh;
-            background:#f8f8f6;
-            border:5px solid #111;outline:3px solid #111;outline-offset:2px;
-            position:relative;z-index:1;
-            box-shadow:inset 0 0 60px rgba(0,0,0,.04),0 0 0 8px #0d0d0d
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+            opacity: 0.6;
         }
-        .scanlines{
-            position:absolute;top:0;left:0;width:100%;height:100%;
-            pointer-events:none;z-index:100;
-            background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.015) 2px,rgba(0,0,0,.015) 4px)
+        .main-container {
+            width: 100%;
+            max-width: 800px;
+            min-height: 96vh;
+            background: #f8f8f6;
+            border: 5px solid #111;
+            outline: 3px solid #111;
+            outline-offset: 2px;
+            position: relative;
+            z-index: 1;
+            box-shadow: inset 0 0 60px rgba(0,0,0,0.04), 0 0 0 8px #0d0d0d;
         }
-        .pixel-bar{
-            width:100%;height:6px;
-            background:repeating-linear-gradient(90deg,#111 0px,#111 6px,#f8f8f6 6px,#f8f8f6 10px);
-            opacity:.5
+        .scanlines {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 100;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.015) 2px, rgba(0,0,0,0.015) 4px);
         }
-        .header{
-            text-align:center;padding:18px 12px 10px;
-            border-bottom:2px dashed #999;margin:0 12px
+        .pixel-bar {
+            width: 100%;
+            height: 6px;
+            background: repeating-linear-gradient(90deg, #111 0px, #111 6px, #f8f8f6 6px, #f8f8f6 10px);
+            opacity: 0.5;
         }
-        .header-garbled-top{
-            font-size:9px;color:#b0b0b0;letter-spacing:1px;margin-bottom:6px;
-            overflow:hidden;white-space:nowrap;text-overflow:ellipsis
+        .header {
+            text-align: center;
+            padding: 18px 12px 10px;
+            border-bottom: 2px dashed #999;
+            margin: 0 12px;
+            position: relative;
         }
-        .header-title{
-            font-size:clamp(18px,5vw,24px);letter-spacing:3px;color:#111;
-            font-weight:bold;margin-bottom:4px
+        .header-garbled-top {
+            font-size: 9px;
+            color: #b0b0b0;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
-        .header-subtitle{
-            font-size:10px;color:#666;letter-spacing:2px;
-            animation:flicker 4s infinite
+        .header-title {
+            font-size: clamp(18px, 5vw, 24px);
+            letter-spacing: 3px;
+            color: #111;
+            font-weight: bold;
+            margin-bottom: 4px;
+            font-family: 'Courier New', monospace;
         }
-        @keyframes flicker{
-            0%,100%{opacity:1}
-            41%{opacity:1}42%{opacity:.7}43%{opacity:1}
-            59%{opacity:1}60%{opacity:.5}61%{opacity:1}
+        .header-subtitle {
+            font-size: 10px;
+            color: #666;
+            letter-spacing: 2px;
+            animation: flicker 4s infinite;
         }
-        .nav-bar{
-            display:flex;margin:8px 12px;border:2px solid #111;flex-wrap:wrap
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            41% { opacity: 1; }
+            42% { opacity: 0.7; }
+            43% { opacity: 1; }
+            59% { opacity: 1; }
+            60% { opacity: 0.5; }
+            61% { opacity: 1; }
         }
-        .nav-btn{
-            flex:1;min-width:0;padding:10px 4px;background:#eee;
-            border:none;border-right:1px solid #999;
-            font-family:'Courier New',monospace;
-            font-size:clamp(11px,2.5vw,14px);letter-spacing:1px;
-            cursor:pointer;color:#111;font-weight:bold;text-align:center;
-            word-break:keep-all
+        .nav-bar {
+            display: flex;
+            margin: 8px 12px;
+            border: 2px solid #111;
+            flex-wrap: wrap;
+            gap: 0;
         }
-        .nav-btn:last-child{border-right:none}
-        .nav-btn:hover{background:#111;color:#ddd}
-        .nav-btn.active{background:#111;color:#c8d8e8}
-        .content-area{padding:6px 10px 16px;position:relative;z-index:1}
-
-        /* 帖子卡片 */
-        .post-card{
-            border:2px solid #111;margin-bottom:6px;padding:10px;
-            cursor:pointer;background:#fafaf8;transition:background .1s;position:relative
+        .nav-btn {
+            flex: 1;
+            min-width: 0;
+            padding: 10px 4px;
+            background: #eee;
+            border: none;
+            border-right: 1px solid #999;
+            font-family: 'Courier New', monospace;
+            font-size: clamp(11px, 2.5vw, 14px);
+            letter-spacing: 1px;
+            cursor: pointer;
+            color: #111;
+            font-weight: bold;
+            text-align: center;
+            word-break: keep-all;
         }
-        .post-card:hover{background:#eaeaec}
-        .post-card-header{border-bottom:2px solid #111;padding-bottom:6px;margin-bottom:6px}
-        .post-card-title{
-            font-size:clamp(15px,3.5vw,18px);font-weight:bold;color:#111;
-            letter-spacing:1px
+        .nav-btn:last-child { border-right: none; }
+        .nav-btn:hover { background: #111; color: #ddd; }
+        .nav-btn.active { background: #111; color: #c8d8e8; }
+        .content-area {
+            padding: 6px 10px 16px;
+            position: relative;
+            z-index: 1;
         }
-        .post-card-meta{font-size:10px;color:#666;margin-top:3px;letter-spacing:1px}
-        .post-card-meta .poster{color:#4a6a8a}
-        .post-card-desc{
-            background:#f0f0f0;border:1px solid #999;padding:6px 8px;
-            font-size:clamp(11px,2.5vw,13px);color:#333;letter-spacing:1px;min-height:2em
+        .post-card {
+            border: 2px solid #111;
+            margin-bottom: 6px;
+            padding: 10px 10px;
+            cursor: pointer;
+            background: #fafaf8;
+            transition: background 0.1s;
+            position: relative;
         }
-
-        /* 子列表入口卡片 */
-        .sublist-entry-card{
-            border:2px solid #111;margin-bottom:6px;padding:10px;
-            cursor:pointer;background:#fafaf8;transition:background .1s;position:relative
+        .post-card:hover { background: #eaeaec; }
+        .post-card-header {
+            border-bottom: 2px solid #111;
+            padding-bottom: 6px;
+            margin-bottom: 6px;
         }
-        .sublist-entry-card:hover{background:#eaeaec}
-        .sublist-entry-card::after{
-            content:"[+]";position:absolute;right:10px;top:10px;
-            font-size:11px;color:#666;font-weight:bold
+        .post-card-title {
+            font-size: clamp(15px, 3.5vw, 18px);
+            font-weight: bold;
+            color: #111;
+            letter-spacing: 1px;
+            font-family: 'Courier New', monospace;
         }
-        .sub-list-container{
-            display:none;margin:0 0 6px 12px;
-            border-left:3px solid #111;padding-left:10px
+        .post-card-meta {
+            font-size: 10px;
+            color: #666;
+            margin-top: 3px;
+            letter-spacing: 1px;
         }
-        .sub-list-container.show{display:block}
-
-        /* 搜索框 */
-        .sublist-search{
-            width:100%;padding:6px 8px;margin-bottom:6px;
-            border:2px solid #111;background:#fff;
-            font-family:'Courier New',monospace;font-size:12px;
-            letter-spacing:1px
+        .post-card-meta .poster { color: #4a6a8a; }
+        .post-card-desc {
+            background: #f0f0f0;
+            border: 1px solid #999;
+            padding: 6px 8px;
+            font-size: clamp(11px, 2.5vw, 13px);
+            color: #333;
+            letter-spacing: 1px;
+            font-family: 'Courier New', monospace;
+            min-height: 2em;
         }
-        .sublist-search:focus{outline:none;border-color:#4a6a8a}
-
-        /* 字母分组 */
-        .letter-group{margin-bottom:8px}
-        .letter-group-title{
-            font-size:14px;font-weight:bold;color:#111;
-            border-bottom:2px solid #111;padding-bottom:2px;margin-bottom:4px;
-            letter-spacing:2px
-        }
-        .letter-group .sub-list-card{margin-bottom:2px}
-
-        .sub-list-card{
-            border:2px solid #111;margin-bottom:3px;padding:8px;
-            cursor:pointer;background:#f8f8f6;
-            font-size:clamp(12px,3vw,14px);font-weight:bold;
-            transition:background .1s
-        }
-        .sub-list-card:hover{background:#eaeaec}
-        .sub-list-back{
-            display:inline-block;margin-top:4px;padding:5px 10px;
-            border:2px solid #111;cursor:pointer;background:#eee;
-            font-family:'Courier New',monospace;font-size:11px;
-            letter-spacing:1px;font-weight:bold
-        }
-        .sub-list-back:hover{background:#111;color:#ddd}
-
-        /* 弹窗 */
-        .modal-overlay{
-            display:none;position:fixed;top:0;left:0;width:100%;height:100%;
-            background:rgba(0,0,0,.88);z-index:10000;
-            justify-content:center;align-items:center;padding:8px
-        }
-        .modal-overlay.show{display:flex}
-        .modal-content{
-            width:100%;max-width:700px;max-height:90vh;
-            background:#f8f8f6;border:5px solid #111;
-            outline:2px solid #111;outline-offset:2px;
-            position:relative;overflow-y:auto;z-index:10001;
-            box-shadow:0 0 0 6px #0d0d0d
-        }
-        .modal-header{
-            display:flex;justify-content:space-between;align-items:flex-start;
-            padding:12px;border-bottom:3px solid #111;background:#f0f0ee;
-            position:sticky;top:0;z-index:10;gap:8px
-        }
-        .modal-title{
-            font-size:clamp(16px,4vw,20px);font-weight:bold;
-            letter-spacing:2px;color:#111;flex:1;word-break:break-all
-        }
-        .modal-close{
-            width:32px;height:32px;min-width:32px;
-            background:#c00;color:#fff;border:3px solid #111;
-            font-size:18px;cursor:pointer;font-weight:bold;
-            line-height:1;transition:background .1s;flex-shrink:0
-        }
-        .modal-close:hover{background:#f00}
-        .modal-info{
-            padding:6px 12px;font-size:10px;color:#555;
-            letter-spacing:1px;border-bottom:1px dashed #999;background:#fafaf8
-        }
-        .modal-info .poster-name{color:#4a6a8a;font-weight:bold}
-        .modal-body{
-            padding:14px;font-size:clamp(13px,3vw,15px);
-            letter-spacing:1px;line-height:1.9;color:#1a1a2e;min-height:160px
-        }
-        /* 正文格式 */
-        .modal-body h1{font-size:1.5em;color:#111;border-bottom:3px solid #111;padding-bottom:4px;margin:16px 0 10px;letter-spacing:2px}
-        .modal-body h2{font-size:1.2em;color:#1a1a2e;border-left:4px solid #111;padding-left:8px;margin:14px 0 8px;letter-spacing:1px}
-        .modal-body h3{font-size:1.05em;color:#333;margin:10px 0 6px;letter-spacing:1px;text-decoration:underline}
-        .modal-body p{margin-bottom:10px}
-        .modal-body strong{color:#111;font-weight:bold}
-        .modal-body em{color:#4a6a8a;font-style:italic}
-        .modal-body ul,.modal-body ol{margin:6px 0 10px 20px}
-        .modal-body li{margin-bottom:4px}
-        .modal-body blockquote{
-            border-left:3px solid #999;padding:4px 10px;margin:8px 0;
-            color:#555;font-style:italic;background:#f5f5f5
-        }
-        .modal-body code{
-            background:#eee;padding:1px 4px;font-family:'Courier New',monospace;
-            font-size:.9em;border:1px solid #ccc
-        }
-        .modal-body hr{border:none;border-top:1px dashed #999;margin:14px 0}
-        .modal-footer-garbled{
-            padding:8px 14px;font-size:9px;color:#aaa;letter-spacing:1px;
-            border-top:1px dashed #ccc;word-break:break-all
+        .post-card.has-sublist::after {
+            content: "[+]";
+            position: absolute;
+            right: 10px; top: 10px;
+            font-size: 11px;
+            color: #666;
+            font-weight: bold;
         }
 
-        .footer-bar{
-            text-align:center;padding:10px;font-size:9px;color:#999;
-            letter-spacing:1px;border-top:2px dashed #ccc;margin:0 12px
+        /* ========== 档案子列表页面样式 ========== */
+        .archive-page {
+            display: none;
+        }
+        .archive-page.show {
+            display: block;
+        }
+        .archive-search {
+            width: 100%;
+            padding: 8px 10px;
+            border: 2px solid #111;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            letter-spacing: 1px;
+            background: #fafaf8;
+            margin-bottom: 8px;
+        }
+        .archive-index {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3px;
+            margin-bottom: 8px;
+        }
+        .archive-index-btn {
+            padding: 4px 8px;
+            border: 1px solid #999;
+            background: #eee;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            min-width: 26px;
+            text-align: center;
+        }
+        .archive-index-btn:hover, .archive-index-btn.active {
+            background: #111;
+            color: #ddd;
+        }
+        .archive-list-item {
+            border: 2px solid #111;
+            margin-bottom: 4px;
+            padding: 10px;
+            cursor: pointer;
+            background: #fafaf8;
+            transition: background 0.1s;
+        }
+        .archive-list-item:hover { background: #eaeaec; }
+        .archive-list-item .archive-item-id {
+            font-weight: bold;
+            font-size: clamp(13px, 3vw, 15px);
+            color: #111;
+            letter-spacing: 1px;
+        }
+        .archive-list-item .archive-item-name {
+            color: #4a6a8a;
+            font-size: clamp(12px, 2.8vw, 14px);
+            margin-top: 2px;
+        }
+        .archive-list-item .archive-item-desc {
+            font-size: 10px;
+            color: #888;
+            margin-top: 2px;
+            letter-spacing: 1px;
+        }
+        .archive-pagination {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+        .archive-pagination button {
+            padding: 6px 12px;
+            border: 2px solid #111;
+            background: #eee;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .archive-pagination button:hover { background: #111; color: #ddd; }
+        .archive-pagination button.active { background: #111; color: #c8d8e8; }
+        .archive-pagination button:disabled { opacity: 0.3; cursor: default; }
+        .archive-back {
+            display: inline-block;
+            margin-bottom: 8px;
+            padding: 6px 14px;
+            border: 2px solid #111;
+            cursor: pointer;
+            background: #eee;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+        .archive-back:hover { background: #111; color: #ddd; }
+        .archive-count {
+            font-size: 10px;
+            color: #888;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
         }
 
-        @media(max-width:480px){
-            body{padding:2px}
-            .main-container{border-width:3px;outline-width:2px;outline-offset:1px;box-shadow:0 0 0 4px #0d0d0d;min-height:98vh}
-            .nav-btn{padding:8px 2px;font-size:11px;letter-spacing:0}
-            .post-card{padding:8px}
-            .post-card-title{font-size:14px}
-            .post-card-desc{font-size:11px}
-            .modal-content{max-height:95vh;border-width:3px}
-            .modal-header{padding:10px 8px}
-            .modal-body{padding:10px;font-size:13px}
-            .modal-close{width:28px;height:28px;min-width:28px;font-size:16px}
+        /* ========== 弹窗 ========== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.88);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            padding: 8px;
+        }
+        .modal-overlay.show { display: flex; }
+        .modal-content {
+            width: 100%;
+            max-width: 700px;
+            max-height: 90vh;
+            background: #f8f8f6;
+            border: 5px solid #111;
+            outline: 2px solid #111;
+            outline-offset: 2px;
+            position: relative;
+            overflow-y: auto;
+            z-index: 10001;
+            box-shadow: 0 0 0 6px #0d0d0d;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 12px 12px;
+            border-bottom: 3px solid #111;
+            background: #f0f0ee;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            gap: 8px;
+        }
+        .modal-title {
+            font-size: clamp(16px, 4vw, 20px);
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #111;
+            flex: 1;
+            font-family: 'Courier New', monospace;
+            word-break: break-all;
+        }
+        .modal-close {
+            width: 32px; height: 32px;
+            min-width: 32px;
+            background: #c00;
+            color: #fff;
+            border: 3px solid #111;
+            font-size: 18px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            line-height: 1;
+            transition: background 0.1s;
+            flex-shrink: 0;
+        }
+        .modal-close:hover { background: #f00; }
+        .modal-info {
+            padding: 6px 12px;
+            font-size: 10px;
+            color: #555;
+            letter-spacing: 1px;
+            border-bottom: 1px dashed #999;
+            background: #fafaf8;
+            font-family: 'Courier New', monospace;
+        }
+        .modal-info .poster-name { color: #4a6a8a; font-weight: bold; }
+        .modal-body {
+            padding: 14px 14px;
+            font-size: clamp(13px, 3vw, 15px);
+            letter-spacing: 1px;
+            line-height: 1.9;
+            color: #1a1a2e;
+            min-height: 160px;
+            font-family: 'Courier New', monospace;
+        }
+        /* Markdown渲染样式 */
+        .modal-body h1 { font-size: 1.5em; border-bottom: 2px solid #111; padding-bottom: 4px; margin: 12px 0 8px; }
+        .modal-body h2 { font-size: 1.3em; margin: 10px 0 6px; color: #1a1a3a; }
+        .modal-body h3 { font-size: 1.15em; margin: 8px 0 4px; color: #2a2a4a; }
+        .modal-body strong { color: #111; }
+        .modal-body em { color: #4a6a8a; }
+        .modal-body ul, .modal-body ol { margin: 6px 0; padding-left: 20px; }
+        .modal-body li { margin-bottom: 2px; }
+        .modal-body hr { border: none; border-top: 2px dashed #999; margin: 12px 0; }
+        .modal-body code { background: #f0f0f0; padding: 2px 6px; border: 1px solid #ccc; font-family: 'Courier New', monospace; }
+        .modal-body blockquote {
+            border-left: 4px solid #4a6a8a;
+            padding-left: 12px;
+            color: #555;
+            margin: 8px 0;
+            background: #f5f5f5;
+        }
+        .modal-footer-garbled {
+            padding: 8px 14px;
+            font-size: 9px;
+            color: #aaa;
+            letter-spacing: 1px;
+            border-top: 1px dashed #ccc;
+            font-family: 'Courier New', monospace;
+            word-break: break-all;
+        }
+        .footer-bar {
+            text-align: center;
+            padding: 10px;
+            font-size: 9px;
+            color: #999;
+            letter-spacing: 1px;
+            border-top: 2px dashed #ccc;
+            margin: 0 12px;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* 手机端 */
+        @media (max-width: 480px) {
+            body { padding: 2px; }
+            .main-container {
+                border-width: 3px;
+                outline-width: 2px;
+                outline-offset: 1px;
+                box-shadow: 0 0 0 4px #0d0d0d;
+                min-height: 98vh;
+            }
+            .nav-btn { padding: 8px 2px; font-size: 11px; letter-spacing: 0px; }
+            .post-card { padding: 8px 8px; }
+            .post-card-title { font-size: 14px; }
+            .post-card-desc { font-size: 11px; }
+            .modal-content { max-height: 95vh; border-width: 3px; }
+            .modal-header { padding: 10px 8px; }
+            .modal-body { padding: 10px 10px; font-size: 13px; }
+            .modal-close { width: 28px; height: 28px; min-width: 28px; font-size: 16px; }
+            .archive-index-btn { padding: 3px 6px; font-size: 10px; min-width: 22px; }
+        }
+        @media (max-width: 340px) {
+            .nav-btn { font-size: 9px; padding: 6px 1px; }
+            .post-card-title { font-size: 13px; }
         }
     </style>
 </head>
 <body>
 
-<div class="main-container" id="mainPage">
-    <div class="scanlines"></div>
-    <div class="pixel-bar"></div>
-
-    <div class="header">
-        <div class="header-garbled-top">0xDEAD ▓▓▓▓ SYS_ERR:0x00F ▓▓▓▓ 0xBEEF ▓▓▓▓▓▓▓▓▓▓▓▓▓▓</div>
-        <div class="header-title">机 密 资 料 库</div>
-        <div class="header-subtitle">[ 限制访问 ] [ 5级权限 ] [ 非法访问将追踪 ]</div>
-    </div>
-
-    <div class="nav-bar" id="navBar"></div>
-    <div class="content-area" id="contentArea"></div>
-
-    <div class="footer-bar">
-        ▓▓▓▓▓▓▓▓▓▓▓▓ 系统时间: <span id="sysTime"></span> | 连接: <span style="animation:flicker 1.5s infinite">■不稳定</span> | 追踪:[已加密] ▓▓▓▓▓▓▓▓▓▓▓▓
-    </div>
-</div>
-
-<div class="modal-overlay" id="modalOverlay" onclick="closePost(event)">
-    <div class="modal-content" id="modalContent" onclick="event.stopPropagation()">
-        <div class="modal-header">
-            <div class="modal-title" id="modalTitle">帖子标题</div>
-            <button class="modal-close" onclick="closePost()" title="关闭">✕</button>
+    <div class="main-container" id="mainPage">
+        <div class="scanlines"></div>
+        <div class="pixel-bar"></div>
+        <div class="header">
+            <div class="header-garbled-top">0xDEAD ▓▓▓▓ SYS_ERR:0x00F ▓▓▓▓ 0xBEEF ▓▓▓▓▓▓▓▓▓▓▓▓▓▓</div>
+            <div class="header-title" id="headerTitle"></div>
+            <div class="header-subtitle" id="headerSubtitle"></div>
         </div>
-        <div class="modal-info">
-            发帖人：<span class="poster-name" id="modalPoster">[匿名]</span> | 
-            时间戳：<span id="modalTimestamp">████-██-██</span> | 
-            权限：<span style="color:#c00;">RESTRICTED</span>
-        </div>
-        <div class="modal-body" id="modalBody"></div>
-        <div class="modal-footer-garbled" id="modalGarbled">
-            ▓▓▓▓ 文档结束 ▓▓▓▓ 0xFF_END ▓▓▓▓
+        <div class="nav-bar" id="navBar"></div>
+        <div class="content-area" id="contentArea"></div>
+        <div class="footer-bar">
+            ▓▓▓▓▓▓▓▓ 系统时间: <span id="sysTime"></span> | 连接: <span style="animation: flicker 1.5s infinite;">■不稳定</span> | 追踪:[已加密] ▓▓▓▓▓▓▓▓
         </div>
     </div>
-</div>
 
-<script src="data.js"></script>
-<script>
-// ===== 系统时间 =====
-function updateTime(){
-    const n=new Date();
-    document.getElementById('sysTime').textContent=
-        n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+
-        String(n.getDate()).padStart(2,'0')+' '+
-        String(n.getHours()).padStart(2,'0')+':'+
-        String(n.getMinutes()).padStart(2,'0')+':'+
-        String(n.getSeconds()).padStart(2,'0')
-}
-updateTime();setInterval(updateTime,1000);
-
-// ===== 加载data.js后执行 =====
-window.addEventListener('DOMContentLoaded',()=>{
-    // 网站标题
-    document.querySelector('.header-title').textContent=SITE_CONFIG.title;
-    document.querySelector('.header-subtitle').textContent=SITE_CONFIG.subtitle;
-
-    // 导航栏
-    const navBar=document.getElementById('navBar');
-    NAV_SECTIONS.forEach((sec,i)=>{
-        const btn=document.createElement('button');
-        btn.className='nav-btn'+(i===0?' active':'');
-        btn.textContent=sec.label;
-        btn.onclick=()=>showSection(sec.id);
-        navBar.appendChild(btn);
-    });
-
-    // 内容区
-    const contentArea=document.getElementById('contentArea');
-    NAV_SECTIONS.forEach(sec=>{
-        const div=document.createElement('div');
-        div.id='section-'+sec.id;
-        div.className='section-content';
-        div.style.display=sec.id==='history'?'block':'none';
-        contentArea.appendChild(div);
-    });
-
-    // 渲染所有帖子
-    renderAllSections();
-});
-
-// ===== 渲染帖子 =====
-function renderAllSections(){
-    NAV_SECTIONS.forEach(sec=>{
-        const container=document.getElementById('section-'+sec.id);
-        // 清空（保留子列表容器）
-        container.innerHTML='';
-
-        const sectionPosts=POSTS.filter(p=>p.section===sec.id);
-
-        sectionPosts.forEach(post=>{
-            // 检查是否是子列表入口
-            if(post.isSublistEntry){
-                renderSublistEntry(container,post);
-                return;
-            }
-            // 普通帖子卡片
-            const card=document.createElement('div');
-            card.className='post-card';
-            card.onclick=()=>loadAndOpenPost(post);
-            card.innerHTML=`
-                <div class="post-card-header">
-                    <div class="post-card-title">${post.title}</div>
-                    <div class="post-card-meta">
-                        发帖人：<span class="poster">${post.poster||'[匿名]'}</span> | 
-                        时间：<span>${post.time||'████-██-██'}</span>
-                    </div>
-                </div>
-                <div class="post-card-desc">${post.desc||'■■■■■■■■■■ ■■■■■■■■■■'}</div>
-            `;
-            container.appendChild(card);
-        });
-    });
-}
-
-// ===== 渲染子列表入口（居民档案/组织档案） =====
-function renderSublistEntry(container, post){
-    const entryCard=document.createElement('div');
-    entryCard.className='sublist-entry-card';
-    entryCard.onclick=()=>toggleSubList(post.sublistId);
-    entryCard.innerHTML=`
-        <div class="post-card-header">
-            <div class="post-card-title">${post.title}</div>
-            <div class="post-card-meta">
-                发帖人：<span class="poster">${post.poster||'[档案管理员]'}</span> | 
-                时间：<span>${post.time||'████-██-██'}</span>
+    <!-- 弹窗 -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closePost(event)">
+        <div class="modal-content" id="modalContent" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">帖子标题</div>
+                <button class="modal-close" onclick="closePost()" title="关闭">✕</button>
+            </div>
+            <div class="modal-info">
+                发帖人：<span class="poster-name" id="modalPoster">[匿名]</span> | 
+                时间戳：<span id="modalTimestamp">████-██-██</span> | 
+                权限：<span style="color:#c00;">RESTRICTED</span>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+            <div class="modal-footer-garbled" id="modalGarbled">
+                ▓▓▓▓ 文档结束 ▓▓▓▓ 0xFF_END ▓▓▓▓
             </div>
         </div>
-        <div class="post-card-desc">点击展开已收录的列表 [+]</div>
-    `;
-    container.appendChild(entryCard);
+    </div>
 
-    // 子列表容器
-    const subContainer=document.createElement('div');
-    subContainer.id=post.sublistId;
-    subContainer.className='sub-list-container';
+    <script src="data.js"></script>
+    <script>
+        // ========== 初始化 ==========
+        document.getElementById('headerTitle').textContent = SITE_CONFIG.title;
+        document.getElementById('headerSubtitle').textContent = SITE_CONFIG.subtitle;
 
-    // 搜索框
-    const searchInput=document.createElement('input');
-    searchInput.className='sublist-search';
-    searchInput.placeholder='🔍 搜索...';
-    searchInput.oninput=()=>filterSublist(post.sublistId,post.listType);
-    subContainer.appendChild(searchInput);
-
-    // 列表内容区
-    const listContent=document.createElement('div');
-    listContent.id=post.sublistId+'-content';
-    subContainer.appendChild(listContent);
-
-    // 收起按钮
-    const backBtn=document.createElement('div');
-    backBtn.className='sub-list-back';
-    backBtn.textContent='◄ 收起';
-    backBtn.onclick=(e)=>{e.stopPropagation();toggleSubList(post.sublistId)};
-    subContainer.appendChild(backBtn);
-
-    container.appendChild(subContainer);
-
-    // 初始填充列表
-    populateSublist(post.sublistId, post.listType, null);
-}
-
-// ===== 填充子列表（带分组） =====
-function populateSublist(sublistId, listType, filter){
-    const contentDiv=document.getElementById(sublistId+'-content');
-    if(!contentDiv)return;
-    contentDiv.innerHTML='';
-
-    let items=[];
-    if(listType==='residents'){
-        items=RESIDENTS.map(r=>typeof r==='string'?{name:r,id:'oc_'+RESIDENTS.indexOf(r)}:r);
-    }else if(listType==='orgs'){
-        items=ORGS.map((o,i)=>typeof o==='string'?{name:o,id:'org_'+i}:o);
-    }
-
-    // 过滤
-    if(filter){
-        const f=filter.toLowerCase();
-        items=items.filter(item=>item.name.toLowerCase().includes(f));
-    }
-
-    if(items.length===0){
-        contentDiv.innerHTML='<p style="color:#999;font-size:12px;padding:8px;">未找到匹配项</p>';
-        return;
-    }
-
-    // 按首字母分组
-    const groups={};
-    items.forEach(item=>{
-        const firstChar=item.name.charAt(0).toUpperCase();
-        if(!groups[firstChar])groups[firstChar]=[];
-        groups[firstChar].push(item);
-    });
-
-    // 排序分组键
-    const sortedKeys=Object.keys(groups).sort((a,b)=>{
-        // 中文排最后
-        if(/[A-Z]/.test(a)&&!/[A-Z]/.test(b))return -1;
-        if(!/[A-Z]/.test(a)&&/[A-Z]/.test(b))return 1;
-        return a.localeCompare(b);
-    });
-
-    sortedKeys.forEach(key=>{
-        const groupDiv=document.createElement('div');
-        groupDiv.className='letter-group';
-        groupDiv.innerHTML=`<div class="letter-group-title">${key}</div>`;
-        const groupItems=groups[key];
-        groupItems.forEach(item=>{
-            const card=document.createElement('div');
-            card.className='sub-list-card';
-            card.textContent=item.name;
-            card.onclick=(e)=>{
-                e.stopPropagation();
-                loadAndOpenPost(item);
-            };
-            groupDiv.appendChild(card);
+        // 生成导航
+        const navBar = document.getElementById('navBar');
+        NAV_SECTIONS.forEach((sec, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'nav-btn' + (i === 0 ? ' active' : '');
+            btn.textContent = sec.label;
+            btn.onclick = () => showSection(sec.id);
+            navBar.appendChild(btn);
         });
-        contentDiv.appendChild(groupDiv);
-    });
-}
 
-// ===== 过滤子列表 =====
-function filterSublist(sublistId, listType){
-    const searchInput=document.querySelector('#'+sublistId+' .sublist-search');
-    const filter=searchInput?searchInput.value:'';
-    populateSublist(sublistId, listType, filter);
-}
+        // 生成内容区
+        const contentArea = document.getElementById('contentArea');
+        const sectionDivs = {};
 
-// ===== 子列表切换 =====
-function toggleSubList(id){
-    const el=document.getElementById(id);
-    document.querySelectorAll('.sub-list-container').forEach(s=>{
-        if(s.id!==id)s.classList.remove('show');
-    });
-    el.classList.toggle('show');
-    // 重置搜索
-    if(el.classList.contains('show')){
-        const searchInput=el.querySelector('.sublist-search');
-        if(searchInput){searchInput.value='';}
-        // 重新填充
-        const sublistId=id;
-        const entry=POSTS.find(p=>p.sublistId===sublistId);
-        if(entry)populateSublist(sublistId,entry.listType,null);
-    }
-}
+        NAV_SECTIONS.forEach(sec => {
+            const div = document.createElement('div');
+            div.id = 'section-' + sec.id;
+            div.className = 'section-content';
+            div.style.display = sec.id === 'history' ? 'block' : 'none';
+            sectionDivs[sec.id] = div;
+            contentArea.appendChild(div);
+        });
 
-// ===== 导航切换 =====
-function showSection(name){
-    document.querySelectorAll('.section-content').forEach(el=>el.style.display='none');
-    document.querySelectorAll('.sub-list-container').forEach(el=>el.classList.remove('show'));
-    document.getElementById('section-'+name).style.display='block';
-    document.querySelectorAll('.nav-btn').forEach((btn,i)=>{
-        btn.classList.remove('active');
-        if(NAV_SECTIONS[i].id===name)btn.classList.add('active');
-    });
-}
+        // 渲染帖子
+        function renderPosts() {
+            Object.keys(sectionDivs).forEach(key => {
+                const div = sectionDivs[key];
+                div.innerHTML = '';
+                const sectionPosts = POSTS.filter(p => p.section === key);
+                sectionPosts.forEach(post => {
+                    const card = document.createElement('div');
+                    card.className = 'post-card';
+                    card.onclick = () => loadAndOpenPost(post.id, post.title, post.poster, post.file);
+                    card.innerHTML = `
+                        <div class="post-card-header">
+                            <div class="post-card-title">${post.title}</div>
+                            <div class="post-card-meta">
+                                发帖人：<span class="poster">${post.poster || '[匿名]'}</span> | 
+                                时间：<span>████-██-██</span>
+                            </div>
+                        </div>
+                        <div class="post-card-desc">${post.desc || '■■■■■■■■■■ ■■■■■■■■■■ ■■■■'}</div>
+                    `;
+                    div.appendChild(card);
+                });
 
-// ===== 加载并打开帖子 =====
-let postCache={};
-async function loadAndOpenPost(post){
-    const postId=post.id;
+                // 特殊处理居民档案分区
+                if (key === 'residents') {
+                    // 公告帖子已在POSTS里，再追加两个子列表入口
+                    const resCard = document.createElement('div');
+                    resCard.className = 'post-card has-sublist';
+                    resCard.onclick = () => showArchivePage('residents');
+                    resCard.innerHTML = `
+                        <div class="post-card-header">
+                            <div class="post-card-title">居民档案</div>
+                            <div class="post-card-meta">
+                                发帖人：<span class="poster">[档案管理员]</span> | 
+                                时间：<span>████-██-██</span>
+                            </div>
+                        </div>
+                        <div class="post-card-desc">点击查看已收录的居民档案列表 [当前收录: ${RESIDENTS.length}]</div>
+                    `;
+                    div.appendChild(resCard);
 
-    // 如果有contentUrl，加载txt文件
-    if(post.contentUrl){
-        if(!postCache[postId]){
-            try{
-                const resp=await fetch(post.contentUrl);
-                if(resp.ok){
-                    postCache[postId]=await resp.text();
-                }else{
-                    postCache[postId]='[文档加载失败]';
+                    const orgCard = document.createElement('div');
+                    orgCard.className = 'post-card has-sublist';
+                    orgCard.onclick = () => showArchivePage('orgs');
+                    orgCard.innerHTML = `
+                        <div class="post-card-header">
+                            <div class="post-card-title">已收录组织档案</div>
+                            <div class="post-card-meta">
+                                发帖人：<span class="poster">[档案管理员]</span> | 
+                                时间：<span>████-██-██</span>
+                            </div>
+                        </div>
+                        <div class="post-card-desc">点击查看已收录的组织档案列表 [当前收录: ${ORGS.length}]</div>
+                    `;
+                    div.appendChild(orgCard);
                 }
-            }catch(e){
-                postCache[postId]='[文档加载失败]';
+            });
+        }
+
+        // ========== 档案子列表页面 ==========
+        function showArchivePage(type) {
+            // 隐藏所有分区内容
+            Object.values(sectionDivs).forEach(d => d.style.display = 'none');
+            const targetDiv = sectionDivs['residents'];
+            targetDiv.style.display = 'block';
+
+            const listData = type === 'residents' ? RESIDENTS : ORGS;
+            const listTitle = type === 'residents' ? '居民档案' : '组织档案';
+            const postType = type === 'residents' ? 'oc' : 'org';
+            const itemsPerPage = 20;
+
+            let currentPage = 1;
+            let filteredData = [...listData];
+            let totalPages = Math.ceil(filteredData.length / itemsPerPage);
+
+            // 获取首字母索引
+            function getFirstChar(item) {
+                const name = item.name || item.id || '';
+                const ch = name.charAt(0).toUpperCase();
+                return /[A-Z]/.test(ch) ? ch : '#';
             }
-        }
-        // 解析并打开
-        openPostWithContent(post.title,postCache[postId],post.poster||'[匿名]');
-    }else if(post.content){
-        // 内联内容
-        openPostWithContent(post.title,post.content,post.poster||'[匿名]');
-    }
-}
 
-// ===== 解析txt内容为HTML =====
-function parseTxtToHTML(text){
-    if(!text||text==='[文档加载失败]')return'<p>[文档加载失败]</p>';
+            function renderArchiveList() {
+                const start = (currentPage - 1) * itemsPerPage;
+                const pageItems = filteredData.slice(start, start + itemsPerPage);
+                totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
-    const lines=text.split('\n');
-    let html='';
-    let inList=false;
-    let listType='';
+                let html = `
+                    <div class="archive-back" onclick="goBackToMain()">◄ 返回主页面</div>
+                    <div style="font-weight:bold;font-size:16px;letter-spacing:2px;margin-bottom:4px;">${listTitle}</div>
+                    <div class="archive-count">共收录 ${filteredData.length} 条记录</div>
+                    <input class="archive-search" type="text" placeholder="搜索..." oninput="window._archiveSearch(this.value)" value="${window._lastSearch || ''}">
+                    <div class="archive-index">
+                        <button class="archive-index-btn" onclick="window._archiveFilter('ALL')">全部</button>
+                `;
+                const chars = new Set();
+                listData.forEach(item => chars.add(getFirstChar(item)));
+                [...chars].sort().forEach(ch => {
+                    html += `<button class="archive-index-btn${window._activeChar===ch?' active':''}" onclick="window._archiveFilter('${ch}')">${ch}</button>`;
+                });
+                html += '</div>';
 
-    for(let i=0;i<lines.length;i++){
-        let line=lines[i];
+                if (pageItems.length === 0) {
+                    html += '<p style="color:#888;letter-spacing:1px;">没有找到匹配的记录。</p>';
+                } else {
+                    pageItems.forEach(item => {
+                        html += `
+                            <div class="archive-list-item" onclick="loadAndOpenPost('${item.id}', '${item.name || item.id} 档案', '[档案管理员]', '${postType}_${item.id}.txt')">
+                                <div class="archive-item-id">${item.id}</div>
+                                <div class="archive-item-name">${item.name || ''}</div>
+                                <div class="archive-item-desc">${item.desc || ''}</div>
+                            </div>
+                        `;
+                    });
+                }
 
-        // 空行
-        if(line.trim()===''){
-            if(inList){html+=(listType==='ul'?'</ul>':'</ol>');inList=false;}
-            continue;
-        }
+                // 分页
+                html += '<div class="archive-pagination">';
+                html += `<button ${currentPage===1?'disabled':''} onclick="window._archiveGoPage(${currentPage-1})">◀ 上一页</button>`;
+                const maxShow = 5;
+                let startP = Math.max(1, currentPage - Math.floor(maxShow/2));
+                let endP = Math.min(totalPages, startP + maxShow - 1);
+                if (endP - startP < maxShow - 1) startP = Math.max(1, endP - maxShow + 1);
+                for (let p = startP; p <= endP; p++) {
+                    html += `<button class="${p===currentPage?'active':''}" onclick="window._archiveGoPage(${p})">${p}</button>`;
+                }
+                html += `<button ${currentPage===totalPages?'disabled':''} onclick="window._archiveGoPage(${currentPage+1})">下一页 ▶</button>`;
+                html += '</div>';
 
-        // 标题
-        if(line.match(/^### /)){
-            if(inList){html+=(listType==='ul'?'</ul>':'</ol>');inList=false;}
-            html+='<h3>'+line.replace(/^### /,'')+'</h3>';
-            continue;
-        }
-        if(line.match(/^## /)){
-            if(inList){html+=(listType==='ul'?'</ul>':'</ol>');inList=false;}
-            html+='<h2>'+line.replace(/^## /,'')+'</h2>';
-            continue;
-        }
-        if(line.match(/^# /)){
-            if(inList){html+=(listType==='ul'?'</ul>':'</ol>');inList=false;}
-            html+='<h1>'+line.replace(/^# /,'')+'</h1>';
-            continue;
-        }
+                targetDiv.innerHTML = html;
 
-        // 引用
-        if(line.match(/^> /)){
-            if(inList){html+=(listType==='ul'?'</ul>':'</ol>');inList=false;}
-            html+='<blockquote>'+line.replace(/^> /,'')+'</blockquote>';
-            continue;
-        }
-
-        // 分割线
-        if(line.match(/^---$/)){
-            if(inList){html+=(listType==='ul'?'</ul>':'</ol>');inList=false;}
-            html+='<hr>';
-            continue;
-        }
-
-        // 无序列表
-        if(line.match(/^[\-\*] /)){
-            if(!inList||listType!=='ul'){
-                if(inList)html+='</ol>';
-                html+='<ul>';
-                inList=true;listType='ul';
+                // 存储状态
+                window._archiveState = { type, currentPage, filteredData, listData, postType, listTitle };
             }
-            html+='<li>'+line.replace(/^[\-\*] /,'')+'</li>';
-            continue;
+
+            window._lastSearch = '';
+            window._activeChar = null;
+            window._archiveSearch = function(val) {
+                window._lastSearch = val;
+                window._activeChar = null;
+                if (!val.trim()) {
+                    filteredData = [...listData];
+                } else {
+                    filteredData = listData.filter(item => 
+                        (item.id || '').toLowerCase().includes(val.toLowerCase()) ||
+                        (item.name || '').toLowerCase().includes(val.toLowerCase()) ||
+                        (item.desc || '').toLowerCase().includes(val.toLowerCase())
+                    );
+                }
+                currentPage = 1;
+                renderArchiveList();
+            };
+            window._archiveFilter = function(ch) {
+                window._lastSearch = '';
+                window._activeChar = ch;
+                if (ch === 'ALL') {
+                    filteredData = [...listData];
+                } else {
+                    filteredData = listData.filter(item => getFirstChar(item) === ch);
+                }
+                currentPage = 1;
+                renderArchiveList();
+            };
+            window._archiveGoPage = function(p) {
+                currentPage = p;
+                renderArchiveList();
+                targetDiv.scrollIntoView({ behavior: 'smooth' });
+            };
+
+            renderArchiveList();
         }
 
-        // 有序列表
-        if(line.match(/^\d+\. /)){
-            if(!inList||listType!=='ol'){
-                if(inList)html+='</ul>';
-                html+='<ol>';
-                inList=true;listType='ol';
+        window.goBackToMain = function() {
+            document.querySelectorAll('.section-content').forEach(el => el.style.display = 'none');
+            sectionDivs['history'].style.display = 'block';
+            document.querySelectorAll('.nav-btn').forEach((btn, i) => {
+                btn.classList.remove('active');
+                if (i === 0) btn.classList.add('active');
+            });
+            renderPosts();
+        };
+
+        // ========== 加载帖子正文 ==========
+        async function loadAndOpenPost(postId, title, poster, fileName) {
+            let content = '';
+            if (fileName) {
+                try {
+                    const response = await fetch('posts/' + fileName);
+                    if (response.ok) {
+                        content = await response.text();
+                    } else {
+                        content = '■■■■■■■■■■\n\n[文档加载失败]';
+                    }
+                } catch (e) {
+                    content = '■■■■■■■■■■\n\n[文档加载失败]';
+                }
+            } else {
+                // 兼容旧格式
+                content = POSTS_CONTENT_BY_ID?.[postId] || '■■■■■■■■■■';
             }
-            html+='<li>'+line.replace(/^\d+\. /,'')+'</li>';
-            continue;
+            openPostWithContent(title, poster, content);
         }
 
-        // 普通段落
-        if(inList){html+=(listType==='ul'?'</ul>':'</ol>');inList=false;}
+        function openPostWithContent(title, poster, content) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalPoster').textContent = poster || '[匿名]';
+            const d = Math.floor(Math.random()*28)+1;
+            const m = Math.floor(Math.random()*12)+1;
+            const y = 2024 + Math.floor(Math.random()*2);
+            document.getElementById('modalTimestamp').textContent = 
+                y + '-' + String(m).padStart(2,'0') + '-' + String(d).padStart(2,'0');
 
-        // 处理内联格式 **加粗** *斜体* `代码`
-        line=line.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
-        line=line.replace(/\*(.+?)\*/g,'<em>$1</em>');
-        line=line.replace(/`(.+?)`/g,'<code>$1</code>');
+            // 简易Markdown渲染
+            let html = parseMarkdown(content);
+            document.getElementById('modalBody').innerHTML = html;
+            document.getElementById('modalGarbled').innerHTML = 
+                '▓▓▓▓ 文档结束 ▓▓▓▓ 0x' + Math.random().toString(16).substring(2,6).toUpperCase() + '_END ▓▓▓▓';
+            document.getElementById('modalOverlay').classList.add('show');
+            document.body.style.overflow = 'hidden';
+            document.getElementById('modalContent').scrollTop = 0;
+        }
 
-        html+='<p>'+line+'</p>';
-    }
+        function parseMarkdown(text) {
+            let html = text;
+            // 标题
+            html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+            html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+            html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+            // 粗体斜体
+            html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+            html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+            html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+            // 列表
+            html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
+            html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+            // 引用
+            html = html.replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
+            // 分隔线
+            html = html.replace(/^---$/gm, '<hr>');
+            // 代码
+            html = html.replace(/`(.+?)`/g, '<code>$1</code>');
+            // 段落
+            html = html.replace(/\n\n+/g, '</p><p>');
+            html = '<p>' + html + '</p>';
+            html = html.replace(/<p>\s*<\/p>/g, '');
+            return html;
+        }
 
-    if(inList){html+=(listType==='ul'?'</ul>':'</ol>');}
-    return html;
-}
+        function closePost(event) {
+            if (event && event.target !== document.getElementById('modalOverlay')) return;
+            document.getElementById('modalOverlay').classList.remove('show');
+            document.body.style.overflow = '';
+        }
 
-// ===== 打开帖子弹窗 =====
-function openPostWithContent(title, rawContent, poster){
-    document.querySelectorAll('.sub-list-container').forEach(el=>el.classList.remove('show'));
+        // ========== 导航切换 ==========
+        function showSection(name) {
+            document.querySelectorAll('.section-content').forEach(el => el.style.display = 'none');
+            const targetDiv = sectionDivs[name];
+            if (targetDiv) {
+                targetDiv.style.display = 'block';
+                // 如果不是居民档案分区，正常渲染帖子
+                if (name !== 'residents' || targetDiv.querySelector('.archive-back')) {
+                    // 已经被archive覆盖了就不动
+                }
+                if (name !== 'residents') {
+                    renderPostsForSection(name);
+                }
+            }
+            document.querySelectorAll('.nav-btn').forEach((btn, i) => {
+                btn.classList.remove('active');
+                if (NAV_SECTIONS[i].id === name) btn.classList.add('active');
+            });
+        }
 
-    document.getElementById('modalTitle').textContent=title;
-    document.getElementById('modalPoster').textContent=poster||'[匿名]';
+        function renderPostsForSection(name) {
+            const div = sectionDivs[name];
+            if (!div) return;
+            div.innerHTML = '';
+            const sectionPosts = POSTS.filter(p => p.section === name);
+            sectionPosts.forEach(post => {
+                const card = document.createElement('div');
+                card.className = 'post-card';
+                card.onclick = () => loadAndOpenPost(post.id, post.title, post.poster, post.file);
+                card.innerHTML = `
+                    <div class="post-card-header">
+                        <div class="post-card-title">${post.title}</div>
+                        <div class="post-card-meta">
+                            发帖人：<span class="poster">${post.poster || '[匿名]'}</span> | 
+                            时间：<span>████-██-██</span>
+                        </div>
+                    </div>
+                    <div class="post-card-desc">${post.desc || '■■■■■■■■■■ ■■■■■■■■■■ ■■■■'}</div>
+                `;
+                div.appendChild(card);
+            });
+        }
 
-    const d=Math.floor(Math.random()*28)+1;
-    const m=Math.floor(Math.random()*12)+1;
-    const y=2024+Math.floor(Math.random()*2);
-    document.getElementById('modalTimestamp').textContent=
-        y+'-'+String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+        // 初始渲染
+        renderPosts();
 
-    // 解析内容
-    const html=parseTxtToHTML(rawContent);
-    document.getElementById('modalBody').innerHTML=html;
-    document.getElementById('modalGarbled').innerHTML=
-        '▓▓▓▓ 文档结束 ▓▓▓▓ 0x'+Math.random().toString(16).substring(2,6).toUpperCase()+'_END ▓▓▓▓';
-    document.getElementById('modalOverlay').classList.add('show');
-    document.body.style.overflow='hidden';
-    document.getElementById('modalContent').scrollTop=0;
-}
+        // 时间
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('sysTime').textContent = 
+                now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' +
+                String(now.getDate()).padStart(2,'0') + ' ' + String(now.getHours()).padStart(2,'0') + ':' +
+                String(now.getMinutes()).padStart(2,'0') + ':' + String(now.getSeconds()).padStart(2,'0');
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
 
-function closePost(event){
-    if(event&&event.target!==document.getElementById('modalOverlay'))return;
-    document.getElementById('modalOverlay').classList.remove('show');
-    document.body.style.overflow='';
-}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closePost()});
-</script>
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closePost(); });
+    </script>
 </body>
 </html>
