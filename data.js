@@ -1,6 +1,5 @@
 // =====================================================================
-//  📝📝📝 配置区 - 所有文字都在这里修改！ 📝📝📝
-//  改完上传到GitHub，1-2分钟后刷新网站即可看到效果
+//  📝📝📝 数据配置区 - 日常修改这个文件就够了 📝📝📝
 // =====================================================================
 
 // ---- 网站基础设置 ----
@@ -16,72 +15,50 @@ const NAV_SECTIONS = [
     { id: "residents", label: "居民档案" }
 ];
 
-// ---- 帖子数据 ----
-// title=标题 | poster=发帖人 | desc=卡片简短描述 | content=正文HTML
+// =====================================================================
+// 📌 帖子目录
+// - 每篇帖子有: id, section(分区), title(标题), poster(发帖人), 
+//   time(时间), desc(摘要-帖子卡片上的简短描述),
+//   contentUrl(正文txt文件路径) 或 content(直接写正文)
+// =====================================================================
 const POSTS = [
+
     // ===== 分区1：历史资料 =====
     {
         id: "history1",
         section: "history",
         title: "遗失的历史",
         poster: "[匿名]",
-        desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■",
-        content: `
-            <p style="color:#555;font-size:11px;margin-bottom:12px;">[文档: 0xA3F001] [密级:████]</p>
-            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-            <p style="color:#999;font-size:10px;margin-top:14px;">▮▮▮ [数据损坏] 0xBEEF ▮▮▮</p>
-        `
+        time: "████-██-██",
+        desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■",
+        contentUrl: "posts/history1.txt"
     },
     {
         id: "history2",
         section: "history",
         title: "薄雾街",
         poster: "[匿名]",
-        desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■",
-        content: `
-            <p style="color:#555;font-size:11px;margin-bottom:12px;">[文档: 0xB1F002] [密级:████]</p>
-            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-        `
+        time: "████-██-██",
+        desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■",
+        contentUrl: "posts/history2.txt"
     },
     {
-       id: "history3",
-       section: "history",
-       title: "博爱之城",
-       poster: "[匿名]",
-       desc: "前往何处、如何前往以及为何前往。",
-       content: `
-           <p style="color:#555;font-size:11px;margin-bottom:12px;">[文档: 0xC2A003] [密级:████]</p>
-
-           <p style="font-weight:bold;font-size:15px;margin-bottom:8px;color:#111;">前往何处：博爱之城</p>
-           <p style="margin-bottom:12px;">对薄雾街而言，博爱之城的象征意义已经超越了它能代指的城市。它在地理位置上位于悲慈地中部地区，延绵而致命的白雾垄断了它的边界，因此不具备任何被擅自探访的可能性。更进一步，有关它最详细的介绍为曾流转于薄雾街内网的、一件仅7MB大小的文档，而其出处与具体内容已不可考。据描述，文档曾客观、中性地概述博爱之城种种，几乎符合所有人对文明时代的文明社会的文明假设……需要提示的是，市面上所有信息，都受到博爱之城信息监管部门真理部的管控，即使是这份泄露文件。人们所追求的真理，都不过真理部允许下的瑕疵。</p>
-           <p style="margin-bottom:12px;">在关于博爱之城所有模棱两可的流言中，有一点可以确信，博爱之城内部已经彻底地排除了白雾造成的危害。除此之外，无论薄雾街人怎样一厢情愿地制造阴谋论，又如何一意孤行地想要前往，它终究只是座建筑群的笼统代称，能承载的起所有指责，所有幻想。</p>
-
-           <p style="font-weight:bold;font-size:15px;margin-bottom:8px;color:#111;">如何前往：空白通行证</p>
-           <p style="margin-bottom:12px;">但，博爱之城终究并非杜撰出的地域，而只要是地点就总有能够抵达的方法：近年来，博爱之城以宽广的博爱之心开放了通往它的道路，其官方向薄雾街公开一种特殊的邀请函，空白通行证。而持有空白通行证的人，只要清晰填写了相关信息，就能以此为凭证登上白雾危机中人类的诺亚方舟。</p>
-
-           <p style="font-weight:bold;font-size:15px;margin-bottom:8px;color:#111;">为何前往：野心，欲望，或者……？</p>
-           <p style="margin-bottom:12px;">这是你需要展现的：）</p>
-       `
+        id: "history3",
+        section: "history",
+        title: "博爱之城",
+        poster: "[匿名]",
+        time: "████-██-██",
+        desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■",
+        contentUrl: "posts/history3.txt"
     },
     {
         id: "history4",
         section: "history",
         title: "公司部门",
         poster: "[匿名]",
-        desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■",
-        content: `
-            <p style="color:#555;font-size:11px;margin-bottom:12px;">[文档: 0xD3C004] [密级:████]</p>
-            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-        `
+        time: "████-██-██",
+        desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■",
+        contentUrl: "posts/history4.txt"
     },
 
     // ===== 分区2：白雾 =====
@@ -90,164 +67,127 @@ const POSTS = [
         section: "fog",
         title: "雾中的世界",
         poster: "[匿名]",
-        desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■",
-        content: `
-            <p style="color:#555;font-size:11px;margin-bottom:12px;">[文档: 0xFOG001] [密级:████]</p>
-            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-            <p style="color:#999;font-size:10px;margin-top:14px;">▮▮▮ [感知过滤] 0xMIST ▮▮▮</p>
-        `
+        time: "████-██-██",
+        desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■",
+        contentUrl: "posts/fog1.txt"
     },
     {
         id: "fog2",
         section: "fog",
         title: "对白雾的研究",
         poster: "[匿名]",
-        desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■",
-        content: `
-            <p style="color:#555;font-size:11px;margin-bottom:12px;">[文档: 0xFOG002] [密级:████]</p>
-            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-        `
+        time: "████-██-██",
+        desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■",
+        contentUrl: "posts/fog2.txt"
     },
     {
         id: "fog3",
         section: "fog",
         title: "恐雾症",
         poster: "[匿名]",
-        desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■",
-        content: `
-            <p style="color:#555;font-size:11px;margin-bottom:12px;">[文档: 0xFOG003] [密级:████]</p>
-            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-        `
+        time: "████-██-██",
+        desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■",
+        contentUrl: "posts/fog3.txt"
     },
     {
-    id: "fog4",
-    section: "fog",
-    title: "？？？",
-    poster: "[未知]",
-    desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■",
-    content: `
-        <p style="color:#555;font-size:11px;margin-bottom:12px;">[文档: 0x????] [密级:████████]</p>
-        <p style="color:#999;font-size:10px;margin-bottom:14px;">/*批注：文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出文档已阅读完毕，请退出*/</p>
-        <p class="placeholder-block" style="margin-bottom:10px;font-weight:bold;color:#111;">黑之手</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">我们假以执瓶人的伟力，恳请她/他庇佑此处写下的话语不至吞没。</p>
-        <p class="placeholder-block" style="margin-bottom:10px;font-weight:bold;color:#111;">历史另一侧</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">笔者于本书的第三章简明介绍了世界的历史，然而所有戴戒人都会将其视为一纸笑谈——纸面上的历史无因无果，可以仅凭"不知道"三字而一笔带过。但戴戒人不能放过那些隐秘的另一重往事，我们常常如秃鹫贪婪地啃噬历史的腐肉以滋养自身。</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">真理部急于抹除所有关于真理和本质的话语，凭借向无知的羔羊灌注所谓"唯物"的历史而支持他们活着。那么，真实的世界是何等面貌，令人避讳不及呢？</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">世上本就不存在神明，唯有法则和规律存在。这法则太过强横，太过伟大，令一切此间的生灵都不得不对其顶礼膜拜，人类社会制订的条条框框在其面前犹如蚍蜉撼大树。那些入魔的牧师、秘密的神父、疯狂的炼金术师、自傲的学者经过数千年的探究才初步查明了关于"法则"的真相——世上本就不存在神明，唯有法则和规律存在。在隐秘的学术世界里，我们称这巨大法则为：黑之手。而钻研这条隐秘之道的人被称为戴戒人。</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">黑之手创生了一，而一分化成二，二背离出三，三孕育出整个世界。从恒星到细菌，都围绕着黑之手这一法则本身运作。你或许可以在梦中得以拜访黑之手的领域，但是在现实中黑之手却无迹可寻。</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">但总有疯癫之人初窥大道时便迫不及待地探求所有，具体过程的确无迹可查，但白雾的起源却可以确定：世界本身，法则本身，也就是黑之手被无知之人的术式破坏了。因此"灵智"从豁口溢出，成为了白雾。</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">是的，白雾本身就是灵智的集合体，他们或许来自死后的动物，或许来自于某个晚上某人的一阵思绪。曾经灵智在梦中供奉着黑之手，维持着秩序和现实的稳定，而如今随着黑之手的破碎，灵智从梦境中逃逸，无孔不入，而梦境与现实的边界也已朦胧。可以这么说，雾区便是梦境的具现。漫步在白雾中，你便走入了某人的梦境。雾区生物和恐雾症患者能力的来源便是雾区与灵智，他们从梦境中逃逸，故此那些只能存在于梦中的景色得以在现实中浮现。</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">除了灵智之外，黑之手本身还劣化为十条法则，不怀谦卑的戴戒人们俗称他们指头，而严谨的戴戒人则会以他们在梦境中浮现的化身来称呼他们。指头乃梦中之梦，与黑之手一同隐匿，无法触及的存在。他们各有思想，因此不似黑之手一般拥有集中的伟力践行永恒的法则。他们各有司掌的领域，他们时而在雾区或是梦境投下一瞬泡影，借此引导人们在浑然不觉中走向指头铺设的道路，履行他们的法则。</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">有心的读者可能会疑惑，或许指头与恐雾症有关，又或者恐雾症患者梦中的臆想就是指头的化身。笔者在此对你的思考给予肯定的答复——是的。</p>
-        <p style="color:#a0a0a0;font-size:10px;margin-top:10px;">我们假以持瓶人的伟力，恳请他/她庇佑在此写下的话语不受诸指头的观察</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">作为本书的附赠品，此处将凭借笔者那浅薄的隐秘学识以及半数的理智来介绍那十位不可知不可见而裁决一切的存在。</p>
-        <p class="placeholder-block" style="margin-bottom:10px;font-weight:bold;color:#111;">三之二：指头</p>
-        <p class="placeholder-block" style="margin-bottom:10px;font-weight:bold;">霄光草</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">霄光草司掌的领域是光明、维持、永恒、协调。霄光草是第一位逸出的指头，祂在雾区的投影为一株朔光之草。霄光草由两重意志叠加而成，所以实际上其应被称为霄光与草。尽管这一法则有两重思绪，但其基本总由霄光作为主导的意志。偶尔霄光会化身为猫在白雾中游曳，此时无光之草便代祂执掌领域。</p>
-        <p class="placeholder-block" style="margin-bottom:10px;font-weight:bold;">船长</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">船长司掌的领域为激情、变革、波、语言、水。对于人类而言，船长是较为危险的投影。祂一般以身着阿尔斯特大衣，佩戴高礼帽的瘦高男性形象出现在梦中。直视船长面孔、听闻船长话语的人总是陷入莫名的疯狂。面会船长的恐雾症患者大多精神失常，因此船长也以一艘行驶在空中的漆白的钢铁巨轮为化身现身于梦中。</p>
-        <p class="placeholder-block" style="margin-bottom:10px;font-weight:bold;">执瓶者</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">执瓶者司掌的领域为知识、研究、守秘、文字。执瓶者的形象为手执漂流瓶的无面孩童，他/她雌雄同体。执瓶者是对人类较为友好的指头。当书写文字时，默念并在文字当中书写执瓶者的名讳，就可祈求他/她的庇护，令此文字不受其他力量荼毒。当以文字指代执瓶者时，只能用她/他，否则此文字将不受庇护。</p>
-        <p class="placeholder-block" style="margin-bottom:10px;font-weight:bold;">绞索电椅</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">绞索电椅司掌的领域为公正、法律、严苛、制裁、雷霆。绞索电椅的形象为一个配有绞索，下方悬空而深不见底的电椅。据诸多戴戒人声称：目击绞索电椅并不会换上恐雾症，只有接受绞索电椅，坐在其上，被它裁决的人才会受他启迪。绞索电椅履行公平的法则，因此祂选择了你的梦，也给予了你选择祂的机会。</p>
-        <p class="placeholder-block" style="margin-bottom:10px;font-weight:bold;">隐匠</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">隐匠司掌的领域为忍耐、磨砺、坚定、专注、刀刃。隐匠的形象为一柄凭空挥舞的锻锤。直视祂并不会陷入疯狂或恐惧，只有试图握住这锤柄，并忍耐那上下挥舞的巨大力道之人，才会被烙下恐雾症的烙印。至此，坚持之仪完毕。</p>
-        <p class="placeholder-block" style="margin-bottom:10px;font-weight:bold;">百元大钞</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">百元大钞司掌的领域为流通、泛用、执行、禁锢。若你在梦中拾起一张百元大钞，上面的肖像为如何也无法看清的女性模样。那么你将在苏醒之时受祂指引，任祂摆布。百元大钞选择了最容易被人类接受的投影模样，祂的选民甚多，但几乎无人知晓祂的存在，即便如此，他们的一呼一吸也在无形中被祂操弄。</p>
-        <p class="placeholder-block" style="margin-bottom:10px;font-weight:bold;">水上烟与空中火</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">和霄光草类似，不过水上烟与空中火是被所司掌的领域紧紧束缚在一起的指头。水上烟所司掌的领域为欲望、爱、影，空中火所司掌的领域为憎恨、遗憾、火焰。水上烟与空中火在梦境中的投影为一盘磁带，这使得将近半个世纪都没有戴戒人能够辨析关于这位指头的真相。</p>
-        <p class="placeholder-block" style="margin-bottom:10px;font-weight:bold;">有鳍之臂</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">有鳍之臂司掌的领域为暴力、战争、血液、震动。有鳍之臂化身为一直伤痕累累而健硕的胳膊，胳膊上布满了大小各异的鱼鳍。有鳍之臂热衷于赋予那些步入雾区的活物和死物以战斗的意志。通过不断地兵器交击，蔓延的血液，有鳍之臂得到取悦便会现身。被有鳍之臂杀死便会于梦中醒来，当你醒来时身上的豁口早已消失不见，取而代之的是隐隐的恐惧和异常的能力。</p>
-        <p class="placeholder-block" style="margin-bottom:10px;font-weight:bold;">晚餐馄饨</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">晚餐馄饨司掌的领域是生存、复苏、繁衍、混沌。晚餐馄饨是由三重意志组成的指头。晚餐馄饨尚未从黑之手分离之时便长久地限于沉默之中。当灵智逸出之时，晚餐馄饨成为了最后一位被分离的法则，因而其力量不全而意志被三重杂糅。晚餐馄饨被投射到梦境中的时间总是在夜晚，在温馨的场景中，这碗冰冷的吃食杂糅着远古意志的善意与恶意。</p>
-        <p class="placeholder-block" style="margin-bottom:10px;font-weight:bold;">潮汐</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">潮汐司掌的领域为夜晚、引力、粒、平衡。潮汐的化身诸多，祂指示凡人的意愿微弱。祂更愿似游人般漫游梦境，顺着现实界的潮汐来回往复，游曳于夜晚之中。潮汐在暗中维系着其余指头的平衡，并与霄光草一样久远不可求。</p>
-        <p style="color:#a0a0a0;font-size:10px;margin-top:10px;">我们假以持瓶人之名、恳请他/她庇佑此处写下的文字不受隐藏真理之人的瞩目</p>
-        <p class="placeholder-block" style="margin-bottom:10px;font-weight:bold;color:#111;">戴戒人</p>
-        <p class="placeholder-block" style="margin-bottom:10px;font-weight:bold;">谁为戴戒人？</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">前文我们已经提到，修习"黑之手"的神秘学者被概括为戴戒人，不过事到如今，我们将在此道之上有所追求的人都统称为戴戒人。</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">在人类社会中，鲜有人知晓戴戒人这一群体的存在，但戴戒人本身就是隐秘历史存在的证明，他们在社会中无孔不入。其中最庞大，最有纪律的戴戒人团体便是所有悲慈地居民都耳熟能详的真理部。</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">真理部的真实任务便是管束手之道的传播与蔓延。公司从白雾的蔓延中得到了巨大的利益，知情者已经了解关于白雾的真相。为了延续既得利益，他们必须维护白雾、维护十位指头。他们恐惧再有戴戒人引发其他如同黑之手分裂的异变。</p>
-        <p class="placeholder-block" style="margin-bottom:10px;font-weight:bold;">戴戒人钻研手之道所求为何？</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">或许有心之人可以发现，所谓《博爱之城迁移计划》不过是缓兵之计，既然薄雾街的沦陷只是时间问题，那么博爱之城又是否会永恒不灭呢？</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">很显然，未来的时代将是白雾遍布世界的时代，在灵智肆意的年代，梦境将与现实合并为一，重组世界的面貌。</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">自白雾扩散以来，戴戒人发现指头并不似黑之手一般不问世事，只是专心维系世界的运行。指头们心思各异，均期待着以自身的权柄作为世界的主体，因此服侍指头便是为自己的未来下一份赌注，得到指头的青睐，便会在祂期许的未来中有一席之地。</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">无人得知白雾弥漫的世界将被哪根指头按下指纹。至此，真理部的真实面目才得以被完全揭露。真理部一方面为所有人塑造了一个美好的博爱之城，这里不会被白雾侵蚀，有着丰足的物质生活，另一方面又打压坊间的戴戒人，让它们不能干涉当局对于手之道的探索。</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">目前大部分关于手之道的研究都被真理部所掌控，若是对隐秘之术有进一步的追求，进入博爱之城似乎是不可避免的一环。</p>
-        <p style="color:#999;font-size:10px;margin-top:14px;">▮▮▮ [文档结束——请退出] ▮▮▮</p>
-    `
-},
+        id: "fog4",
+        section: "fog",
+        title: "？？？",
+        poster: "[未知]",
+        time: "████-██-██",
+        desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■",
+        contentUrl: "posts/fog4.txt"
+    },
 
-    // ===== 分区3：公告 =====
+    // ===== 分区3：公告帖子 =====
     {
         id: "announce1",
         section: "residents",
         title: "公告：档案格式与撰写规则",
         poster: "[管理员]",
-        desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■",
-        content: `
-            <p style="color:#555;font-size:11px;margin-bottom:12px;">[文档: 0xADM001] [密级:内部]</p>
-            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-            <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-        `
+        time: "████-██-██",
+        desc: "■■■■■■■■■■ ■■■■■■■■■■ ■■■■",
+        contentUrl: "posts/announce1.txt"
+    },
+
+    // ===== 居民档案入口（子列表） =====
+    {
+        id: "sublist_residents",
+        section: "residents",
+        title: "居民档案",
+        poster: "[档案管理员]",
+        time: "████-██-██",
+        desc: "点击展开已收录的居民档案列表 [+]",
+        isSublistEntry: true,
+        sublistId: "sublist-residents",
+        listType: "residents"
+    },
+
+    // ===== 组织档案入口（子列表） =====
+    {
+        id: "sublist_orgs",
+        section: "residents",
+        title: "已收录组织档案",
+        poster: "[档案管理员]",
+        time: "████-██-██",
+        desc: "点击展开已收录的组织档案列表 [+]",
+        isSublistEntry: true,
+        sublistId: "sublist-orgs",
+        listType: "orgs"
     }
 ];
 
-// ---- 居民档案OC列表 ----
-// 💡 添加新OC：复制一行，改id和name，然后在下面POSTS_CONTENT_BY_ID加正文
-const RESIDENTS = [
-    { id: "oc_1", name: "OC-001" },
-    { id: "oc_2", name: "OC-002" },
-    { id: "oc_3", name: "OC-003" }
+// =====================================================================
+// 📌 OC列表 - 从 lists/residents.txt 加载
+//     如果加载失败，用这里的备用数据
+//     格式: { id: "oc_1", name: "OC-001", contentUrl: "posts/oc_1.txt" }
+// =====================================================================
+let RESIDENTS = [
+    { id: "oc_1", name: "OC-001", contentUrl: "posts/oc_1.txt" },
+    { id: "oc_2", name: "OC-002", contentUrl: "posts/oc_2.txt" },
+    { id: "oc_3", name: "OC-003", contentUrl: "posts/oc_3.txt" }
 ];
 
-// ---- 组织档案列表 ----
-// 💡 添加新组织：同上
-const ORGS = [
-    { id: "org_1", name: "ORG-001" },
-    { id: "org_2", name: "ORG-002" }
+// =====================================================================
+// 📌 组织列表 - 从 lists/orgs.txt 加载
+//     如果加载失败，用这里的备用数据
+// =====================================================================
+let ORGS = [
+    { id: "org_1", name: "ORG-001", contentUrl: "posts/org_1.txt" },
+    { id: "org_2", name: "ORG-002", contentUrl: "posts/org_2.txt" }
 ];
 
-// ---- OC和组织的帖子正文 ----
-// 💡 在这里修改每个OC/组织的正文内容
-const POSTS_CONTENT_BY_ID = {
-    "oc_1": `
-        <p style="color:#555;font-size:11px;margin-bottom:12px;">[档案编号: OC-001] [密级:████]</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-    `,
-    "oc_2": `
-        <p style="color:#555;font-size:11px;margin-bottom:12px;">[档案编号: OC-002] [密级:████]</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-    `,
-    "oc_3": `
-        <p style="color:#555;font-size:11px;margin-bottom:12px;">[档案编号: OC-003] [密级:████]</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-    `,
-    "org_1": `
-        <p style="color:#555;font-size:11px;margin-bottom:12px;">[档案编号: ORG-001] [密级:████]</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-    `,
-    "org_2": `
-        <p style="color:#555;font-size:11px;margin-bottom:12px;">[档案编号: ORG-002] [密级:████]</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-        <p class="placeholder-block" style="margin-bottom:10px;">■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■ ■■■■■■■■■■</p>
-    `
-};
+// =====================================================================
+// 自动从 lists/ 文件夹加载列表（如果存在则覆盖上面的默认值）
+// =====================================================================
+(async function loadLists(){
+    try{
+        const resp=await fetch('lists/residents.txt');
+        if(resp.ok){
+            const text=await resp.text();
+            RESIDENTS=text.split('\n')
+                .map(line=>line.trim())
+                .filter(line=>line.length>0)
+                .map((name,i)=>({
+                    id: 'oc_'+(i+1),
+                    name: name,
+                    contentUrl: 'posts/oc_'+(i+1)+'.txt'
+                }));
+        }
+    }catch(e){console.log('居民列表加载失败，使用默认数据');}
+
+    try{
+        const resp=await fetch('lists/orgs.txt');
+        if(resp.ok){
+            const text=await resp.text();
+            ORGS=text.split('\n')
+                .map(line=>line.trim())
+                .filter(line=>line.length>0)
+                .map((name,i)=>({
+                    id: 'org_'+(i+1),
+                    name: name,
+                    contentUrl: 'posts/org_'+(i+1)+'.txt'
+                }));
+        }
+    }catch(e){console.log('组织列表加载失败，使用默认数据');}
+})();
