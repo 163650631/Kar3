@@ -5,8 +5,8 @@
 
 // ---- 网站基础设置 ----
 const SITE_CONFIG = {
-    title: "机 密 资 料 库",
-    subtitle: "[ 限制访问 ] [ 5级权限 ] [ 非法访问将追踪 ]"
+    title: "未开放的资料库",
+    subtitle: "[ 限制访问 ] [ 误入请退出 ] [ 非法访问将追踪 ]"
 };
 
 // ---- 导航分区 ----
@@ -39,13 +39,13 @@ const POSTS = [
 // ---- 居民档案OC列表 ----
 // 格式: { id: "唯一编号", name: "OC名字", desc: "简短描述" }
 const RESIDENTS = [
-    { id: "OC-001", name: "张三", desc: "薄雾街的守夜人" },
-    { id: "OC-002", name: "李四", desc: "失踪的研究员" },
-    { id: "OC-003", name: "王五", desc: "前公司员工" }
+    { id: "001", name: "暂无", desc: "██" },
+    { id: "002", name: "暂无", desc: "██" },
+    { id: "003", name: "暂无", desc: "██" }
 ];
 
 // ---- 组织档案列表 ----
 const ORGS = [
-    { id: "ORG-001", name: "薄雾街管理处", desc: "负责薄雾街日常事务" },
-    { id: "ORG-002", name: "白雾研究所",   desc: "官方白雾研究机构" }
+    { id: "001", name: "暂无", desc: "███" },
+    { id: "002", name: "暂无",   desc: "███" }
 ];
