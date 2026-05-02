@@ -93,7 +93,7 @@ body::after {
 .post-card:hover { background: #eaeaec; }
 
 .post-card-header {
-    border-bottom: 2px solid #111; padding-bottom: 6px; margin-bottom: 6px;
+    border-bottom: none; padding-bottom: 6px; margin-bottom: 6px;
 }
 
 .post-card-title {
