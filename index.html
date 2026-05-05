@@ -266,13 +266,14 @@
             return html;
         }
 
-        function parseInline(text) {
-            text = escapeHtml(text);
-            text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-            text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
-            text = text.replace(/`(.+?)`/g, '<code style="background:#eee;padding:1px 4px;border:1px solid #999;">$1</code>');
-            return text;
-        }
+function parseInline(text) {
+    text = escapeHtml(text);
+    text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" style="max-width:100%;border:3px solid #111;margin:8px 0;display:block;image-rendering:pixelated;">');
+    text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
+    text = text.replace(/`(.+?)`/g, '<code style="background:#eee;padding:1px 4px;border:1px solid #999;">$1</code>');
+    return text;
+}
 
         function escapeHtml(str) {
             return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
